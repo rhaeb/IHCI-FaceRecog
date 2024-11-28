@@ -16,4 +16,4 @@ Starting steps as collaborator:
     8. Run by: "npm start" either through vscode terminal or CMD with the repository directory
 
 Make sure to:
-1. Pull before making any changes
+    1. Pull before making any changes
