@@ -47,8 +47,8 @@ async function startFaceRecognition() {
       event.preventDefault();
       const firstName = document.getElementById('firstName').value;
       const lastName = document.getElementById('lastName').value;
-      const email = document.getElementById('email').value;
-      const password = document.getElementById('password').value;
+      const email = document.getElementById('sEmail').value;
+      const password = document.getElementById('sPassword').value;
 
       // Send face data along with user details to the backend for signup
       if (!faceData) {
@@ -86,8 +86,8 @@ async function startFaceRecognition() {
   function handleLogin() {
     document.getElementById('loginForm').addEventListener('submit', (event) => {
       event.preventDefault();
-      const email = document.getElementById('email').value;
-      const password = document.getElementById('password').value;
+      const email = document.getElementById('lEmail').value;
+      const password = document.getElementById('lPassword').value;
 
       // Send face data along with email/password to the backend for login
       if (!faceData) {
