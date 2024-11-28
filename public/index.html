@@ -3,15 +3,21 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Face Recognition Test</title>
+  <title>Face Recognition Login/Signup</title>
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
-  <h1>Face Recognition App</h1>
-  
-  <!-- The video element where webcam feed will be displayed -->
-  <video id="video" width="640" height="480" autoplay></video>
+  <div class="container">
+    <h2>Face Recognition Login</h2>
+    <form id="loginForm">
+      <input type="email" id="email" placeholder="Email" required>
+      <input type="password" id="password" placeholder="Password" required>
+      <button type="submit">Login</button>
+    </form>
+    <canvas id="canvas"></canvas>
+  </div>
 
-  <script src="/js/face-api.min.js"></script>
-  <script src="/js/script.js"></script>
+  <script defer src="/public/js/face-api.min.js"></script>
+  <script src="/public/js/script.js"></script>
 </body>
 </html>

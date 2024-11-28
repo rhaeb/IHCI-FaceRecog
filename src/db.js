@@ -1,21 +1,18 @@
-// src/db.js
-const { Pool } = require('pg');
-require('dotenv').config(); // Load environment variables from .env
+const { Client } = require('pg');
+const dotenv = require('dotenv');
 
-// Use DATABASE_URL if it's available, else fallback to individual environment variables
-const pool = new Pool(
-    process.env.DATABASE_URL
-        ? {
-              connectionString: process.env.DATABASE_URL, // Use connection string for remote DB
-              ssl: { rejectUnauthorized: false }, // Optional: Use if remote DB requires SSL
-          }
-        : {
-              user: process.env.DB_USER,
-              host: process.env.DB_HOST,
-              database: process.env.DB_NAME,
-              password: process.env.DB_PASS,
-              port: process.env.DB_PORT,
-          }
-);
+dotenv.config();
 
-module.exports = pool;
+const client = new Client({
+  host: process.env.DB_HOST,
+  port: process.env.DB_PORT,
+  database: process.env.DB_NAME,
+  user: process.env.DB_USER,
+  password: process.env.DB_PASSWORD,
+});
+
+client.connect()
+  .then(() => console.log("Connected to PostgreSQL"))
+  .catch(err => console.error("Connection error", err.stack));
+
+module.exports = client;
