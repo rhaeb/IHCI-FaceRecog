@@ -14,6 +14,15 @@ Starting steps as collaborator:
 5. Type: "npm install"
 6. Ang ".env copy" na file kay irename to ".env"
 7. Edit the database connection.(Port will be changed regularly for shared database, if ganahan mo moedit inyoha kay edit your local db, then kato na local connection gamita, Note:PostgreSQL)
+  -CREATE TABLE USERS(
+    U_ID SERIAL PRIMARY KEY,
+    U_FNAME VARCHAR(50) NOT NULL,
+	U_LNAME VARCHAR(50) NOT NULL,
+    U_EMAIL VARCHAR(100) UNIQUE NOT NULL,
+    U_PASSW VARCHAR(255) NOT NULL,
+    U_FACE_DATA JSONB,
+    U_CREATED_AT TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
 8. Run by: "npm start" either through vscode terminal or CMD with the repository directory
 
 Make sure to:
