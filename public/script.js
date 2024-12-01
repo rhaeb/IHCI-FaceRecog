@@ -3,9 +3,9 @@ let faceData = null;
 
 async function startFaceRecognition() {
     // Load face-api.js models
-    await faceapi.nets.ssdMobilenetv1.loadFromUri('/models');
-    await faceapi.nets.faceLandmark68Net.loadFromUri('/models');
-    await faceapi.nets.faceRecognitionNet.loadFromUri('/models');
+    await faceapi.nets.ssdMobilenetv1.loadFromUri('./models');
+    await faceapi.nets.faceLandmark68Net.loadFromUri('./models');
+    await faceapi.nets.faceRecognitionNet.loadFromUri('./models');
     
     const video = document.createElement('video');
     video.width = 640;
