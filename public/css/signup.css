@@ -1,4 +1,8 @@
+/* Import Poppins Font */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+
 body {
+    font-family: 'Poppins', sans-serif;
     background: url('your-image-url') no-repeat center center fixed; 
     background-size: cover;
     height: 100%;
@@ -7,6 +11,10 @@ body {
     justify-content: center;
     align-items: flex-start; /* Align to top of the page */
     flex-direction: column;
+    padding-top: 60px; /* Add space above the form */
+    justify-content: center; /* Centers horizontally */
+    align-items: center; /* Centers vertically */
+    min-height: 100vh; /* Ensures full viewport height */
 }
 
 /* Static background image at the top */
@@ -25,23 +33,23 @@ body::before {
 
 /* Form Container Styles */
 .form-container {
-    max-width: 850px;
-    background: #ffffff; /* White background for the form */
+    background: #fff;
     border-radius: 8px;
-    padding: 40px 20px 20px 20px; /* Add more padding on top for spacing */
-    margin: 50px auto;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    position: relative;
-    z-index: 2;
-    max-height: 130vh; /* Set the max height of the form container */
-    overflow: hidden; /* Ensure the form container doesn't overflow */
+    padding: 40px;
+  
+    width: 100%;
+    max-width: 850px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    text-align: center;
+    overflow: hidden;
+    margin-top: auto; /* Automatically centers with top space */
 }
 
-/* Form Content Styling */
-.form-container form {
-    max-height: 100%;
-    overflow-y: auto; /* Make the content scrollable */
-    padding-right: 10px; /* Add padding to avoid hidden scrollbars */
+.form-title {
+    font-size: 24px;
+    font-weight: 600;
+    margin-bottom: 20px;
+    color: #333;
 }
 
 /* Form Row Styles */
@@ -49,62 +57,113 @@ body::before {
     display: flex;
     flex-wrap: wrap;
     gap: 20px;
+    margin-bottom: 15px;
 }
 
-/* Adjust the width of the fields */
 .form-row > div {
-    flex: 1 1 45%; /* Default to 2 fields per row */
+    flex: 1 1 45%; /* Two fields per row */
+}
+/* Form Row Styles for Name Fields */
+.name-row {
+    display: flex; /* Creates a flex container */
+    gap: 20px; /* Adds space between the fields */
+    margin-bottom: 15px; /* Adds space below the row */
 }
 
-.form-row > div:nth-child(3),
-.form-row > div:nth-child(4) {
-    flex: 1 1 30%; /* Three fields in a row (Last Name, Middle Name, First Name) */
+.name-row > div {
+    flex: 1 1 30%; /* Each field takes up 30% of the row's width */
 }
 
-.form-row > div:nth-child(5),
-.form-row > div:nth-child(6) {
-    flex: 1 1 100%; /* One field per row for Email and Register Face ID */
+.name-row > div label {
+    font-size: 14px;
+    font-weight: bold;
+    margin-bottom: 5px;
+    display: block;
+    text-align: left;
+    color: #333;
 }
 
-.form-row > div:nth-child(7),
-.form-row > div:nth-child(8) {
-    flex: 1 1 45%; /* Two fields for Password and Confirm Password */
+.name-row > div input {
+    width: 100%; /* Ensures inputs take full width of their container */
+    padding: 10px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    margin-top: 5px;
+    background-color: rgb(224, 224, 224);
+    font-family: 'Poppins', sans-serif;
+    box-shadow: 0 4px 8px rgba(182, 182, 182, 0.2); /* Subtle shadow effect */
+}
+/* Label Styling */
+label {
+    font-size: 14px;
+    font-weight:bold;
+    margin-bottom: 5px; /* Adds spacing between the label and the input */
+    display: block; /* Ensures label is above the input */
+    text-align: left; /* Aligns the label text to the left */
+    color: #333; /* Label text color */
 }
 
-/* Adjust form fields to be full-width */
 input, select, button {
     width: 100%;
     padding: 10px;
     border-radius: 6px;
     border: 1px solid #ccc;
-    margin-bottom: 15px;
+    margin-top: 8px;
+    background-color:rgb(224, 224, 224);
+    font-family: 'Poppins', sans-serif;
+    font-style:none;
+    box-shadow: 0 20px 4px rgba(182, 182, 182, 0.1);
+}
+/* Face ID Label Container */
+.label-container {
+    text-align: center; /* Centers the label text */
+    margin-bottom: 5px; /* Adds spacing below the label */
 }
 
-button {
+/* Label Styling */
+.face-id-row label {
+    font-size: 14px;
+    margin-top:20px;
+    color: #333;
+    font-weight: bold;
+    display: block; /* Ensures label appears above other elements */
+}
+
+/* Face ID Image Container */
+.face-id-container {
+    display: flex;
+    justify-content: center; /* Centers the image horizontally */
+    margin-top: 5px; /* Adds spacing above the image */
+    padding-right:350px;
+    padding-left:350px;
+}
+
+/* Face ID Image Styling */
+.face-id-icon {
+    width: 80px; /* Adjust size of the image */
+    height: auto;
+}
+
+button.register-button {
     background-color: #0056b3;
     color: white;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 6px;
-    width: 100%;
     font-size: 16px;
-    margin-top: 20px;
+    border: none;
+    cursor: pointer;
+    transition: 0.3s ease;
+    margin-top: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
-button:hover {
+button.register-button:hover {
     background-color: #003d80;
-}
-
-/* Sign-in Link Styling */
-.sign-in {
-    text-align: center;
-    margin-top: 10px;
 }
 
 .sign-in a {
     color: #0056b3;
     text-decoration: none;
-    font-weight: bold;
+    font-weight: 600;
+    margin-top: 10px;
 }
 
 .sign-in a:hover {
@@ -113,8 +172,7 @@ button:hover {
 
 /* Footer Styles */
 footer {
-    text-align: center;
-    margin-top: 20px;
     font-size: 14px;
     color: #6c757d;
+    margin-top: 20px;
 }
