@@ -17,36 +17,38 @@
     <link rel="stylesheet" href="/css/signup.css">
 </head>
 <body>
+    <!-- Form Container -->
     <div class="form-container">
+        <h1 class="form-title">EduSync</h1>
         <form action="#">
             <!-- Row 1: Student ID and Phone -->
             <div class="form-row">
                 <div>
                     <label for="student-id">Student ID</label>
-                    <input type="text" id="student-id" placeholder="Enter your student ID">
+                    <input type="text" id="student-id" >
                 </div>
                 <div>
-                    <label for="phone">Phone</label>
-                    <input type="text" id="phone" placeholder="Enter your phone number">
+                    <label for="phone" >Phone</label>
+                    <input type="text" id="phone" >
                 </div>
             </div>
-    
+
             <!-- Row 2: Last Name, Middle Name, First Name -->
-            <div class="form-row">
+            <div class="form-row name-row">
                 <div>
                     <label for="last-name">Last Name</label>
-                    <input type="text" id="last-name" placeholder="Enter your last name">
+                    <input type="text" id="last-name" >
                 </div>
                 <div>
                     <label for="middle-name">Middle Name</label>
-                    <input type="text" id="middle-name" placeholder="Enter your middle name">
+                    <input type="text" id="middle-name" >
                 </div>
                 <div>
                     <label for="first-name">First Name</label>
-                    <input type="text" id="first-name" placeholder="Enter your first name">
+                    <input type="text" id="first-name" >
                 </div>
             </div>
-    
+
             <!-- Row 3: Birthdate and Gender -->
             <div class="form-row">
                 <div>
@@ -62,57 +64,37 @@
                     </select>
                 </div>
             </div>
-    
+
             <!-- Row 4: Email -->
             <div class="form-row">
                 <div>
                     <label for="email">Email</label>
-                    <input type="email" id="email" placeholder="Enter your email">
+                    <input type="email" id="email" >
                 </div>
             </div>
-    
+
             <!-- Row 5: Register Face ID -->
-            <div class="form-row">
-                <div>
-                    <label for="face-id">Register Face ID</label>
-                    <input type="file" id="face-id">
+            <div class="form-row face-id-row">
+                <label for="face-id">Register Face ID</label>
+                <div class="face-id-container">
+                    <img src="/images/faceid-wrong.png" alt="Face ID Icon" class="face-id-icon">
                 </div>
             </div>
-    
-            <!-- Row 6: Password and Confirm Password -->
-            <div class="form-row">
-                <div>
-                    <label for="password">Password</label>
-                    <input type="password" id="password" placeholder="Enter your password">
-                </div>
-                <div>
-                    <label for="confirm-password">Confirm Password</label>
-                    <input type="password" id="confirm-password" placeholder="Confirm your password">
-                </div>
-            </div>
-    
-            <!-- Row 7: Show Password -->
-            <div class="form-row">
-                <div>
-                    <label for="show-password">
-                        <input type="checkbox" id="show-password"> Show password
-                    </label>
-                </div>
-            </div>
-    
-            <!-- Row 8: SIGN UP Button -->
-            <button type="submit">SIGN UP</button>
-    
-            <!-- Row 9: Sign in Link -->
+            
+
+           
+
+            <!-- Row 8: Register Button -->
+            <button type="submit" class="register-button">Register</button>
+
+            <!-- Row 9: Sign In Link -->
             <div class="sign-in">
-                <a href="#">Sign in</a>
+                <a href="#">Sign In</a>
             </div>
         </form>
+        <footer>&copy; All Rights Reserved</footer>
     </div>
 
-    <footer>
-        &copy; All Rights Reserved
-    </footer>
     <script src="/node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
