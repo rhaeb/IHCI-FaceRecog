@@ -1,0 +1,66 @@
+/* Header Styles */
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #13434c; /* Dark Blue */
+    color: white;
+    padding: 15px;
+}
+
+.header .logo {
+    width: 10px !important;  /* Force smaller size */
+    height: 10px !important; /* Force smaller size */
+    border-radius: 50%;
+}
+
+.header .icon {
+    width: 30px;
+    height: 30px;
+}
+
+/* Welcome Card Styles */
+.card {
+    width: 400px;
+    border-radius: 15px;
+    overflow: hidden;
+}
+
+.card-header {
+    background: linear-gradient(45deg, #ff6f61, #004d80);
+    color: white;
+    font-weight: bold;
+    padding: 20px;
+}
+
+.welcome-text {
+    margin: 0;
+}
+
+.profile-photo {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 5px solid #004d80;
+}
+
+.user-name {
+    font-weight: bold;
+    margin: 10px 0;
+}
+
+.btn-continue {
+    background-color: #004d80;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 5px;
+    transition: 0.3s;
+}
+
+.btn-continue:hover {
+    background-color: #ff6f61;
+    color: white;
+}
