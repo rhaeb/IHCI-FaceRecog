@@ -7,44 +7,146 @@
     <!-- Bootstrap CSS for styling -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="/node_modules/bootstrap/dist/css/bootstrap.min.css">
-
+    
     <!-- Bootstrap JS and jQuery (for Bootstrap's JS functionality) -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script defer src="./face-api.min.js"></script>
     <script defer src="./script.js"></script>
+    <style>
+        body {
+            background-color: #f8f9fa;
+            font-family: Arial, sans-serif;
+        }
+        .form-container {
+            max-width: 600px;
+            background: #ffffff;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 30px auto;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .form-title {
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 24px;
+            font-weight: bold;
+        }
+        .form-group label {
+            font-weight: bold;
+        }
+        .form-group input {
+            border-radius: 6px;
+        }
+        .form-group select {
+            border-radius: 6px;
+        }
+        .btn-primary {
+            background-color: #0056b3;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+        }
+        .btn-primary:hover {
+            background-color: #003d80;
+        }
+        .text-link {
+            color: #0056b3;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        .text-link:hover {
+            text-decoration: underline;
+        }
+        .face-id {
+            text-align: center;
+            margin-top: 10px;
+        }
+        .face-id img {
+            width: 100px;
+            cursor: pointer;
+        }
+        footer {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 14px;
+            color: #6c757d;
+        }
+    </style>
 </head>
 <body>
     <!-- Signup Form -->
-    <div class="container mt-5" id="signupFormContainer">
-        <h2>Signup</h2>
+    <div class="form-container">
+        <div class="form-title">EduSync</div>
         <form id="signupForm">
             <div class="form-group">
-                <label for="firstName">First Name</label>
-                <input type="text" class="form-control" id="firstName" required>
+                <label for="studentId">Student ID</label>
+                <input type="text" class="form-control" id="studentId" placeholder="Enter your student ID" required>
             </div>
             <div class="form-group">
-                <label for="lastName">Last Name</label>
-                <input type="text" class="form-control" id="lastName" required>
+                <label for="phone">Phone</label>
+                <input type="text" class="form-control" id="phone" placeholder="Enter your phone number" required>
+            </div>
+            <div class="form-group row">
+                <div class="col-md-4">
+                    <label for="lastName">Last Name</label>
+                    <input type="text" class="form-control" id="lastName" placeholder="Last Name" required>
+                </div>
+                <div class="col-md-4">
+                    <label for="middleName">Middle Name</label>
+                    <input type="text" class="form-control" id="middleName" placeholder="Middle Name">
+                </div>
+                <div class="col-md-4">
+                    <label for="firstName">First Name</label>
+                    <input type="text" class="form-control" id="firstName" placeholder="First Name" required>
+                </div>
             </div>
             <div class="form-group">
-                <label for="sEmail">Email address</label>
-                <input type="sEmail" class="form-control" id="sEmail" required>
+                <label for="birthdate">Birthdate</label>
+                <input type="date" class="form-control" id="birthdate" required>
             </div>
             <div class="form-group">
-                <label for="sPassword">Password</label>
-                <input type="sPassword" class="form-control" id="sPassword" required>
+                <label for="gender">Gender</label>
+                <select class="form-control" id="gender" required>
+                    <option value="">Select Gender</option>
+                    <option value="male">Male</option>
+                    <option value="female">Female</option>
+                    <option value="other">Other</option>
+                </select>
             </div>
-            <button type="submit" class="btn btn-primary">Sign Up</button>
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" class="form-control" id="email" placeholder="Enter your email" required>
+            </div>
+            <div class="form-group face-id">
+                <label for="faceId">Register Face ID</label>
+                <div>
+                    <img src="face-id-placeholder.png" alt="Face ID Icon" id="faceId">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" class="form-control" id="password" placeholder="Enter password" required>
+            </div>
+            <div class="form-group">
+                <label for="confirmPassword">Confirm Password</label>
+                <input type="password" class="form-control" id="confirmPassword" placeholder="Confirm password" required>
+            </div>
+            <div class="form-group form-check">
+                <input type="checkbox" class="form-check-input" id="showPassword">
+                <label class="form-check-label" for="showPassword">Show password</label>
+            </div>
+            <button type="submit" class="btn btn-primary btn-block">Register</button>
+            <div class="text-center mt-3">
+                <a href="signin.html" class="text-link">Sign In</a>
+            </div>
         </form>
     </div>
 
-  
-    <!-- Optional, add a video element for face detection (this will be added dynamically by the JS) -->
-    <div id="videoContainer" class="container mt-5">
-        <!-- Video element will be dynamically created and inserted here -->
-    </div>
+    <footer>
+        &copy; All Rights Reserved
+    </footer>
     <script src="/node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
