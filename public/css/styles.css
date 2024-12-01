@@ -36,3 +36,11 @@ input, button {
     font-weight: bold;
 }
 
+canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1;  /* Ensure the canvas is above the video */
+    pointer-events: none;  /* Prevent interaction with the canvas (so you can still interact with the video below) */
+    border: 1px solid red;  /* Optional: Visual debug */
+}

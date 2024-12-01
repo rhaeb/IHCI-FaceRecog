@@ -2,7 +2,6 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const User = require('../models/userModel');
 const faceapi = require('face-api.js');
-console.log('userController.js');
 
 const signupUser = async (req, res) => {
     const { username, password, firstName, lastName } = req.body;
@@ -31,8 +30,7 @@ const signupUser = async (req, res) => {
 
         return res.status(201).json({ message: 'User registered successfully. Please proceed with face registration.' });
     } catch (error) {
-        console.error('Error registering user:', error);
-        return res.status(500).json({ message: 'Error registering user' });
+        return res.status(500).json({ message: 'Error registering user', error: error.message });
     }
 };
 
@@ -41,6 +39,9 @@ const registerFace = async (req, res) => {
 
     try {
         const user = await User.findOne({ where: { U_EMAIL: username } });
+        if (!faceDescriptor || !Array.isArray(faceDescriptor)) {
+            return res.status(400).json({ message: 'Invalid face descriptor' });
+        }
         if (!user) {
             return res.status(400).json({ message: 'User not found' });
         }
@@ -56,14 +57,14 @@ const registerFace = async (req, res) => {
 };
 
 const findUser = async (req, res) => {
-    const { userId } = req.params; // userId is passed as a route parameter (e.g., /users/:userId)
+    const { userId } = req.params; // Extract userId from the URL
 
     try {
         if (!userId) {
             return res.status(400).json({ message: 'User ID is required.' });
         }
 
-        const user = await User.findUser(userId);  // Call the model method to find the user by ID
+        const user = await User.findUser(userId); // Query database for user
 
         if (!user) {
             return res.status(404).json({ message: 'User not found' });
@@ -97,7 +98,7 @@ const loginUser = async (req, res) => {
 
         if (user.U_FACE_DATA) {
             const storedFaceData = JSON.parse(user.U_FACE_DATA);
-            const faceMatcher = new faceapi.FaceMatcher(storedFaceData);
+            const faceMatcher = new faceapi.FaceMatcher(storedFaceData, 0.6);
             const match = faceMatcher.findBestMatch(faceDescriptor);
 
             if (match.distance < 0.6) {

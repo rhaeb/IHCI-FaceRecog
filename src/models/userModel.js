@@ -6,7 +6,7 @@ class User {
         // Ensure the condition has a valid key and value
         const column = Object.keys(condition)[0];
         const value = condition[column];
-        console.log('Searching for user with email:', username);
+        console.log('Searching for user with email:', value);
         if (!column || !value) {
             throw new Error('Invalid condition provided to findOne');
         }

@@ -1,4 +1,4 @@
-const pool = require('/src/db'); // Import your db.js file
+const pool = require('./src/db'); // Import your db.js file
 
 const testDB = async () => {
     try {
