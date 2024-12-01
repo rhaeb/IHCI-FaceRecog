@@ -37,25 +37,45 @@ body::before {
 .form-container {
     background: #fff;
     border-radius: 8px;
-    padding: 40px 40px;  /* Add padding around the form (left-right padding added) */
+    padding: 20px  40px;  /* Add padding around the form (left-right padding added) */
     width: 100%;
     max-width: 800px;  /* Maximum width of the form */
-    height: 90vh;  /* Adjust the height to fit within the viewport */
+    height: 94vh;  /* Adjust the height to fit within the viewport */
     margin: 0 auto;  /* Center the form horizontally */
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
     overflow: hidden;  /* Prevent scrolling */
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    justify-content: flex-start; /* Aligns all children to the top */
     box-sizing: border-box;
 }
 
+/* Form Title Container */
+.form-title-container {
+    display: flex;
+    align-items: center; /* Vertically centers the logo and the title */
+    gap: 20px; /* Adds space between the logo and title */
+    margin-bottom:25px; /* Space below the title */
+    margin-top: 0; /* Removes any default margin from the top */
+    
+}
+
+/* Logo Styling */
+.logo {
+    width: 75px; /* Adjust size of the logo */
+    height: auto; /* Keep aspect ratio */
+}   
+
+/* Form Title Styling */
 .form-title {
-    font-size: 24px;
-    font-weight: 600;
-   
-    margin-bottom: 20px;
-    color: #333;
+    font-family: 'Poppins', sans-serif; /* Add this if you're already using Poppins font */
+    font-size: 30px; /* Adjust size as needed */
+    font-weight: 500; /* Make it bold to match the sample */
+    text-align: center; /* Center-align the title */
+    margin: 0; /* Remove any margin */
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2); /* Add subtle shadow for depth */
+    color: #333; /* Adjust color if needed */
+    padding-top: 0; /* Remove any padding above */
 }
 
 /* Form Row Styles */
