@@ -15,8 +15,9 @@ app.use(cors());
 app.use(bodyParser.json());
 app.use(express.static('public'));
 app.use('/node_modules', express.static(__dirname + '/node_modules'));
+
 // Routes
-app.use('/api/users', userRoute); // Link userRoutes to /api/users
+app.use('/api/users', userRoute);
 
 // Server setup
 const PORT = process.env.PORT || 5000;

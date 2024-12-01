@@ -1,0 +1,38 @@
+body {
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    background-color: #f0f0f0;
+}
+
+.container {
+    text-align: center;
+}
+
+#video-container {
+    position: relative;
+    margin-bottom: 20px;
+}
+
+#video, #overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+#controls {
+    margin-bottom: 20px;
+}
+
+input, button {
+    margin: 5px;
+    padding: 5px 10px;
+}
+
+#message {
+    font-weight: bold;
+}
+
