@@ -5,13 +5,14 @@ body {
     font-family: 'Poppins', sans-serif;
     background: url('your-image-url') no-repeat center center fixed; 
     background-size: cover;
+    background-color: #e0e0e0;
     height: 100%;
     margin: 0;
     display: flex;
     justify-content: center;
     align-items: flex-start; /* Align to top of the page */
     flex-direction: column;
-    padding-top: 60px; /* Add space above the form */
+    padding-top:18px; /* Add space above the form */
     justify-content: center; /* Centers horizontally */
     align-items: center; /* Centers vertically */
     min-height: 100vh; /* Ensures full viewport height */
@@ -32,37 +33,43 @@ body::before {
 }
 
 /* Form Container Styles */
+/* Form container styles */
 .form-container {
     background: #fff;
     border-radius: 8px;
-    padding: 40px;
-  
+    padding: 40px 40px;  /* Add padding around the form (left-right padding added) */
     width: 100%;
-    max-width: 850px;
+    max-width: 800px;  /* Maximum width of the form */
+    height: 90vh;  /* Adjust the height to fit within the viewport */
+    margin: 0 auto;  /* Center the form horizontally */
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
-    text-align: center;
-    overflow: hidden;
-    margin-top: auto; /* Automatically centers with top space */
+    overflow: hidden;  /* Prevent scrolling */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    box-sizing: border-box;
 }
 
 .form-title {
     font-size: 24px;
     font-weight: 600;
+   
     margin-bottom: 20px;
     color: #333;
 }
 
 /* Form Row Styles */
+/* Form Row Adjustments */
 .form-row {
     display: flex;
     flex-wrap: wrap;
-    gap: 20px;
+    gap: 15px;
     margin-bottom: 15px;
 }
-
 .form-row > div {
     flex: 1 1 45%; /* Two fields per row */
 }
+
 /* Form Row Styles for Name Fields */
 .name-row {
     display: flex; /* Creates a flex container */
@@ -86,12 +93,13 @@ body::before {
 .name-row > div input {
     width: 100%; /* Ensures inputs take full width of their container */
     padding: 10px;
-    border-radius: 6px;
-    border: 1px solid #ccc;
+    height:33px;
+    border: none;   
     margin-top: 5px;
-    background-color: rgb(224, 224, 224);
+    background-color:rgb(231, 231, 231);
     font-family: 'Poppins', sans-serif;
-    box-shadow: 0 4px 8px rgba(182, 182, 182, 0.2); /* Subtle shadow effect */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); /* Adjusted shadow for better visibility */
+    transition: box-shadow 0.3s ease; /* Smooth transition on focus */
 }
 /* Label Styling */
 label {
@@ -103,56 +111,82 @@ label {
     color: #333; /* Label text color */
 }
 
+/* Adjust form elements to fit without scrolling */
 input, select, button {
     width: 100%;
+    height: 33px;  /* Fixed height for input, select, and button */
     padding: 10px;
-    border-radius: 6px;
-    border: 1px solid #ccc;
+    border: none;
+   
     margin-top: 8px;
-    background-color:rgb(224, 224, 224);
+    background-color: rgb(224, 224, 224);
     font-family: 'Poppins', sans-serif;
-    font-style:none;
-    box-shadow: 0 20px 4px rgba(182, 182, 182, 0.1);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    transition: box-shadow 0.3s ease;
+}
+input#birthdate { 
+    font-size: 14px; /* Adjust font size */
+}
+select#gender {
+    width: 100%; /* Adjust width to take full available space */
+    max-width: 400px; /* Optional: Restrict maximum width */
+    padding: 8px; /* Adjust padding for better appearance */
+    font-size: 14px; /* Adjust font size */
+    height: 36px; /* Adjust height */
+    background-color: rgb(224, 224, 224); /* Match input background color */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); /* Add shadow */
 }
 /* Face ID Label Container */
 .label-container {
     text-align: center; /* Centers the label text */
-    margin-bottom: 5px; /* Adds spacing below the label */
+   
 }
 
-/* Label Styling */
+/* Face ID Label Styling */
 .face-id-row label {
     font-size: 14px;
-    margin-top:20px;
+    margin-bottom: 10px; /* Space between label and image */
+    text-align: left; /* Keep label aligned to the left */
     color: #333;
     font-weight: bold;
-    display: block; /* Ensures label appears above other elements */
+    display: block;
 }
 
 /* Face ID Image Container */
 .face-id-container {
     display: flex;
     justify-content: center; /* Centers the image horizontally */
-    margin-top: 5px; /* Adds spacing above the image */
-    padding-right:350px;
-    padding-left:350px;
+    margin-top: 30px; /* Space above the image */
+    width: 100%; /* Ensures the container spans full width */
+    padding-right: 150px;
 }
 
 /* Face ID Image Styling */
 .face-id-icon {
-    width: 80px; /* Adjust size of the image */
-    height: auto;
+    width: 70px; /* Adjust size of the image */
+    height: 70px;
+    margin: 0; /* No extra margin on the image */
 }
 
-button.register-button {
+
+button {
     background-color: #0056b3;
     color: white;
-    font-size: 16px;
+    font-size: 16px; 
+    padding: 12px 24px; 
+    width: 100%; /* Full width inside the container */
+    max-width: 380px; /* Set max-width to keep button from stretching too much */
+    height:38px; 
+    padding-top: 6px;
     border: none;
     cursor: pointer;
     transition: 0.3s ease;
-    margin-top: 15px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    margin-top: 25px;
+    
+    margin-left: 175px; /* Center the button horizontally */
+    margin-right: 150px; /* Center the button horizontally */
+    border-radius: 6px; 
+    box-sizing: border-box; 
 }
 
 button.register-button:hover {
