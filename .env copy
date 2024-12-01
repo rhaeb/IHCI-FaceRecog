@@ -1,8 +1,0 @@
-PORT=5000
-DATABASE_URL=postgresql://username:password@localhost:5432/facerecog
-DB_USER=username
-DB_PASS=password
-DB_HOST=localhost
-DB_PORT=5432
-DB_NAME=facerecog
-JWT_SECRET=V?eYWn~^_?I7wUE
