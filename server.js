@@ -14,7 +14,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(cors());
 app.use(bodyParser.json());
 app.use(express.static('public'));
-
+app.use('/node_modules', express.static(__dirname + '/node_modules'));
 // Routes
 app.use('/api/users', userRoute); // Link userRoutes to /api/users
 
