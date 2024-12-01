@@ -57,6 +57,20 @@ class User {
     }
   }
 
+  static async findUser(userId) {
+    const query = `
+      SELECT * FROM USERS WHERE U_ID = $1
+    `;
+    try {
+      const values = [userId];
+      const result = await db.query(query, values);
+      return result.rows[0];  // Return the first user if found
+    } catch (error) {
+      console.error('Error finding user:', error);
+      throw error;  // Re-throw the error to handle it elsewhere
+    }
+  }
+
   static async comparePassword(providedPassword, storedPassword) {
     try {
       return await bcrypt.compare(providedPassword, storedPassword);

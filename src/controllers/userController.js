@@ -55,6 +55,32 @@ const registerFace = async (req, res) => {
     }
 };
 
+const findUser = async (req, res) => {
+    const { userId } = req.params; // userId is passed as a route parameter (e.g., /users/:userId)
+
+    try {
+        if (!userId) {
+            return res.status(400).json({ message: 'User ID is required.' });
+        }
+
+        const user = await User.findUser(userId);  // Call the model method to find the user by ID
+
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+
+        return res.status(200).json({
+            id: user.U_ID,
+            email: user.U_EMAIL,
+            firstName: user.U_FNAME,
+            lastName: user.U_LNAME
+        });
+    } catch (error) {
+        console.error('Error finding user:', error);
+        return res.status(500).json({ message: 'Error finding user' });
+    }
+};
+
 const loginUser = async (req, res) => {
     const { username, faceDescriptor } = req.body;
 
@@ -102,4 +128,5 @@ module.exports = {
     signupUser,
     registerFace,
     loginUser,
+    findUser
 };
