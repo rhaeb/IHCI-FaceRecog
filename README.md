@@ -11,7 +11,7 @@ Starting steps as collaborator:
  3. Clone repository if ok na (copy the directory kung aha ninyo giclone)
  4. Go to CMD, then type: "cd [repository-directory]"
  5. Type: "npm install"
- 6. Ang ".env copy" na file kay irename to ".env"
+ 6. Ang ".env copy" na file kay icopy then paste then irename to ".env"
  7. Edit the database connection.(Port will be changed regularly for shared database, if ganahan mo moedit inyoha kay edit your local db, then kato na local connection gamita, Note:PostgreSQL,pag install mo)
   -  CREATE TABLE USERS(
      U_ID SERIAL PRIMARY KEY,
