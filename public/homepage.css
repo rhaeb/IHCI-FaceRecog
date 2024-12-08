@@ -1,0 +1,293 @@
+/* General Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f9;
+}
+
+/* Navbar */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    background-color: #13434C;
+    color: white;
+    padding: 7px 16px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.navbar .logo {
+    display: flex;
+    align-items: center;
+}
+
+.navbar .logo img {
+    height: 40px;
+    margin-right: 10px;
+}
+
+.navbar .user-profile img {
+    height: 40px;
+    width: 40px;
+    border-radius: 50%;
+    border: 2px solid white;
+}
+
+/* Main Section Layout */
+.main-section {
+    display: flex;
+    gap: 70px;
+    margin-top: 10px;
+}
+
+/* Info Section */
+.info-section {
+    margin-left: 50px;
+    display: table;
+}
+
+.info-section p {
+    margin: 20px;
+    color: #333; /* Text color */
+
+  }
+
+  /* Highlight "Main Campus" */
+  .info-section p:first-child {
+    display: flex;
+    align-items: center;
+    font-weight: bold;
+  }
+
+  /* Add red dot */
+  .info-section p:first-child::before {
+    content: '';
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    background-color: red;
+    border-radius: 50%;
+    margin-right: 10px;
+  }
+
+  /* Time */
+  #time {
+    font-weight: bold;
+    font-size: 1.2rem;
+  }
+
+  /* Profile Section Styling */
+.info-section p:last-child {
+    display: flex;
+    align-items: center;
+    font-size: 1.1rem;
+    font-weight: bold;
+    border-top: 1px solid #ddd; /* Divider above */
+    margin-top: 10px;
+    padding-top: 10px;
+  }
+
+  #icon {
+    width: 25px;
+    height: 25px;
+    margin-right: 10px;
+    vertical-align: middle; 
+    border-radius: 50%; 
+  }
+
+/* Profile Card */
+.profile-card {
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 5px 15px;
+    width: 380px;
+    text-align: center;
+    overflow: hidden;
+}
+
+.background-pic img{
+    width: 100%; 
+    height: 150px; 
+    object-fit: cover;
+}
+
+.profile-card .profile-picture {
+    height: 110px;
+    width: 110px;
+    border-radius: 50%;
+    border: 3px solid white;
+    margin-top: -50px;
+    object-fit: cover;
+}
+
+.profile-card h2 {
+    margin-bottom: 1rem;
+    font-size: 1.5rem;
+    color: #070808;
+}
+
+.profile-card p {
+    margin-bottom: 1rem;
+}
+
+/* Profile Information */
+.profile-info {
+    margin-right: 40px;
+    flex: 2;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 5px 15px;
+    padding: 2rem;
+}
+
+.profile-info h2 {
+    margin-bottom: 1rem;
+    color: #060708;
+}
+
+.profile-info form {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.profile-info label {
+    flex: 1 1 100%; 
+    font-size: 14px;
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: #333;
+}
+
+.profile-info input {
+    width: 100%;
+    flex: 1 1 calc(50% - 16px);
+    padding: 0.5rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+    margin-bottom: 15px;
+    background-color: #f0f0f0;
+    color: #666;
+    box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+}
+
+.profile-info .column {
+    display: flex;
+    column-gap: 50px;
+}
+.profile-info #id-number, #phone {
+    margin-top: 10px;
+}
+
+input:focus {
+    outline: none;
+    border-color: #6c757d;
+    background-color: #e9ecef;
+}
+
+.profile-info input:focus {
+    outline: none;
+    border-color: #0056b3;
+    box-shadow: 0 0 5px rgba(0, 86, 179, 0.5);
+}
+
+.profile-info button {
+    background-color: #13434C;
+    color: #fff;
+    border: none;
+    border-radius: 1px;
+    padding: 6px 50px;
+    font-size: 14px;
+    font-style: sans serif;
+    cursor: pointer;
+    margin-left: 220px;
+    margin-top: 6px;
+    text-align: left;
+}
+
+.profile-info button:hover {
+    background-color: #004494;
+}
+
+
+/* Popup styles */
+.popup {
+    display: none; /* Hidden by default */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.popup-content {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    width: 90%;
+    max-width: 400px;
+    position: relative;
+}
+
+.popup-content h2 {
+    margin-bottom: 20px;
+    font-size: 1.5rem;
+    text-align: center;
+}
+
+.popup-content .form-group {
+    margin-bottom: 15px;
+}
+
+.popup-content label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+    font-size: 15px;
+}
+
+.popup-content input,
+.popup-content select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 1rem;
+}
+
+.popup-content button {
+    width: 100%;
+    padding: 10px;
+    background-color: #13434C;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    font-size: 1rem;
+    cursor: pointer;
+}
+
+.popup-content button:hover {
+    background-color: #004494;
+}
+
+.close-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: #333;
+}

@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/homepage.css">
+    <title>EduSync</title>
+    <!-- <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet"> -->
+</head>
+<body>
+    <div class="container">
+        <!-- Navbar -->
+        <header class="navbar">
+            <div class="logo">
+                <img src="images/slogo.png" alt="EduSync Logo">
+                <span>EduSync</span>
+            </div>
+            <div class="user-profile">
+                <img src="images/caps2.png" alt="User Profile">
+            </div>
+        </header>
+
+        <!-- Main Section -->
+        <div class="main-section">
+            <!-- Info Section -->
+            <div class="info-section">
+                <p><strong>Main Campus</strong></p>
+                <p id="time">8:00:50 AM</p>
+                <p>Profile</p>
+                <p><img id="icon" src="images/Vector.png"> My Profile</p>
+            </div>
+
+            <!-- Profile Card -->
+            <div class="profile-card">
+                <div class="cover-photo"></div>
+                    <div class="background-pic"><img src="images/background.svg"></div>
+                    <img src="images/caps2.png" alt="Profile Picture" class="profile-picture">
+                    <h2>CEDRICK M. AGTONG</h2>
+                    <p>cedrick.agtong@gmail.com</p>
+                    <p>Student</p>
+                </div>
+
+            <!-- Profile Information -->
+            <div class="profile-info">
+                <h2>Profile Information</h2>
+                <form>
+                    <label for="first-name">First Name</label>
+                    <input type="text" id="first-name" value="">
+
+                    <label for="middle-name">Middle Name</label>
+                    <input type="text" id="middle-name" value="">
+
+                    <label for="last-name">Last Name</label>
+                    <input type="text" id="last-name" value="">
+
+                    <div class="column">
+                        <div class="input-box">
+                            <label for="id-number">ID Number</label>
+                            <input type="text" id="id-number" value="">
+                        </div>
+                        <div class="input-box">
+                            <label for="phone">Phone</label>
+                            <input type="text" id="phone" value="">
+                        </div>
+                    </div>
+
+                    <label for="email">Email</label>
+                    <input type="email" id="email" value="">
+
+                    <button type="button" id="edit-button">Edit</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- POPUP AREA -->
+    <div class="popup" id="editPopup">
+        <div class="popup-content">
+            <span class="close-btn" id="closePopup">&times;</span>
+            <h2>EduSync</h2>
+            <form id="editForm">
+                <div class="form-group">
+                    <label for="student-id">Student ID</label>
+                    <input type="text" id="student-id" value="133427" readonly>
+                </div>
+                <div class="form-group">
+                    <label for="phone">Phone</label>
+                    <input type="text" id="phone" value="09505071720">
+                </div>
+                <div class="form-group">
+                    <label for="last-name">Last Name</label>
+                    <input type="text" id="last-name" value="Agtong">
+                </div>
+                <div class="form-group">
+                    <label for="middle-name">Middle Name</label>
+                    <input type="text" id="middle-name" value="Mier">
+                </div>
+                <div class="form-group">
+                    <label for="first-name">First Name</label>
+                    <input type="text" id="first-name" value="Cedrick">
+                </div>
+                <div class="form-group">
+                    <label for="birthdate">Birthdate</label>
+                    <input type="date" id="birthdate" value="2004-07-14">
+                </div>
+                <div class="form-group">
+                    <label for="gender">Gender</label>
+                    <select id="gender">
+                        <option value="Male" selected>Male</option>
+                        <option value="Female">Female</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" value="cedrick.agtong@gmail.com">
+                </div>
+                <button type="button" id="registerButton">Register</button>
+            </form>
+        </div>
+    </div>
+    
+
+    <script>
+        // Real-time clock
+        function updateTime() {
+            const now = new Date();
+            document.getElementById("time").textContent = now.toLocaleTimeString();
+        }
+        setInterval(updateTime, 1000);
+
+        // Enable editing
+        document.getElementById('edit-button').addEventListener('click', () => {
+            const inputs = document.querySelectorAll('input');
+            inputs.forEach(input => input.toggleAttribute('readonly'));
+        });
+
+        // POPUP SCRIPT
+        // Get the popup and buttons
+        const editPopup = document.getElementById("editPopup");
+        const editButton = document.getElementById("edit-button");
+        const closePopup = document.getElementById("closePopup");
+
+        // Show popup when Edit button is clicked
+        editButton.addEventListener("click", () => {
+            editPopup.style.display = "flex";
+        });
+
+        // Close popup when the close button is clicked
+        closePopup.addEventListener("click", () => {
+            editPopup.style.display = "none";
+        });
+
+        // Close popup when clicking outside the popup content
+        window.addEventListener("click", (e) => {
+            if (e.target === editPopup) {
+                editPopup.style.display = "none";
+            }
+        });
+
+
+    </script>
+</body>
+</html>
