@@ -3,16 +3,52 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Face Recognition Authentication</title>
-    <link rel="stylesheet" href="css/styles.css">
+    <title>Face Recognition Signup and Login</title>
+    <!-- Bootstrap CSS for styling -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap JS and jQuery (for Bootstrap's JS functionality) -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script defer src="./face-api.min.js"></script>
+    <script defer src="./script.js"></script>
+    <link rel="stylesheet" href="css/landingpage.css">
+
 </head>
 <body>
-    <div class="container">
-        <h1>Face Recognition Authentication</h1>
-        <div id="controls">
-            <a href="signup.html" class="button">Register</a>
-            <a href="#" class="button">Login</a>
+    <div class="container-fluid header text-white" style="background-color: #13434c;">
+        <div class="d-flex justify-content-between align-items-center px-4 py-2">
+            <div class="d-flex align-items-center">
+                <img src="images/slogo.png" alt="EduSync Logo" class="logo" width="70" height="70">
+
+                <h1 class="ml-3 mb-0">EduSync</h1>
+            </div>
+            <!-- <div class="d-flex align-items-center">
+                <img src="images/notification-icon.png" alt="Notifications" class="icon">
+                <img src="images/user-profile.png" alt="User Profile" class="icon ml-3">
+            </div> -->
         </div>
     </div>
-</body>
+    <div class="container d-flex justify-content-center align-items-center vh-100">
+        <div class="card text-center shadow">
+            <div class="card-header">
+                <img src="images/art.jpg" alt="" style=" width: 100%;  height: 200px; object-fit: cover; border-bottom: 2px solid #13434c;">
+                <h2 class="welcome-text mt-3">Welcome to <b>EduSync!</b></h2>
+            </div>
+            <div class="card-body">
+                <!-- <img src="images/profile-photo.png" alt="User Photo" class="profile-photo mb-3"> -->
+                <p class="text-muted">Wala paba kay account? nganu wa man? Register dayun. Pero kung naa nakay account, login ditso orayt? orayt</p>
+                <a href="login.html">
+                    <button class="btn btn-primary btn-continue">
+                        Login with <b>Face ID</b>
+                    </button>
+                </a>
+                <a href="signup.html">
+                    <button class="btn btn-primary btn-continue">Register </button>
+                </a>
+                
+            </div>
+        </div>
+    </div>
+</body>s
 </html>

@@ -8,7 +8,11 @@ const client = new Client({
   port: process.env.DB_PORT,
   database: process.env.DB_NAME,
   user: process.env.DB_USER,
+<<<<<<< HEAD
   password: "Keiichi@1",
+=======
+  password: "123123",
+>>>>>>> 64bb4ddc645a4738cf482f33489a890ebbd7727e
 });
 
 client.connect()

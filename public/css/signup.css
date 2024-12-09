@@ -155,36 +155,26 @@ select#gender {
     background-color: rgb(224, 224, 224); /* Match input background color */
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); /* Add shadow */
 }
-/* Face ID Label Container */
-.label-container {
-    text-align: center; /* Centers the label text */
-   
-}
 
-/* Face ID Label Styling */
-.face-id-row label {
-    font-size: 14px;
-    margin-bottom: 10px; /* Space between label and image */
-    text-align: left; /* Keep label aligned to the left */
-    color: #333;
-    font-weight: bold;
-    display: block;
-}
-
-/* Face ID Image Container */
+/* Face ID Container */
 .face-id-container {
     display: flex;
-    justify-content: center; /* Centers the image horizontally */
-    margin-top: 30px; /* Space above the image */
-    width: 100%; /* Ensures the container spans full width */
-    padding-right: 150px;
+    flex-direction: column; /* Places label below the image */
+    align-items: center; /* Centers the image and label horizontally */
+    margin-top: 20px; /* Adds space above the container */
 }
 
-/* Face ID Image Styling */
-.face-id-icon {
-    width: 70px; /* Adjust size of the image */
-    height: 70px;
-    margin: 0; /* No extra margin on the image */
+.face-id-container img {
+    width: 80px; /* Adjust this as needed */
+    height: 80px; /* Maintain square ratio */
+    object-fit: contain; /* Ensures the image fits without distortion */
+}
+
+.face-id-container label {
+    font-size: 14px; 
+    color: #333; 
+    margin-top: 10px; /* Adds space between the image and label */
+    text-align: center;
 }
 
 
@@ -212,14 +202,26 @@ button.register-button:hover {
     background-color: #003d80;
 }
 
-.sign-in a {
+/* Login Link */
+.login {
+    display: flex;            
+    justify-content: center;  
+    font-size: 14px;           
+    margin-top: 15px;
+}
+
+.login span {
+    color: #6c757d;
+}
+
+.login a {
     color: #0056b3;
     text-decoration: none;
     font-weight: 600;
-    margin-top: 10px;
+    margin-left: 5px;
 }
 
-.sign-in a:hover {
+.login a:hover {
     text-decoration: underline;
 }
 
@@ -227,5 +229,10 @@ button.register-button:hover {
 footer {
     font-size: 14px;
     color: #6c757d;
-    margin-top: 20px;
+    position: fixed;  
+    bottom: 0;                
+    left: 0;                  
+    margin: 0;              
+    padding: 10px;            
+    width: auto;              
 }

@@ -23,6 +23,7 @@
             <img src="/images/slogo.png" alt="Logo" class="logo">
             <h1 class="form-title">EduSync</h1>
         </div>
+
         <form action="#">
             <!-- Row 1: Student ID and Phone -->
             <div class="form-row">
@@ -77,26 +78,25 @@
             </div>
 
             <!-- Row 5: Register Face ID -->
-            <div class="form-row face-id-row">
+            <div class="face-id-container">
+                <a href="#" id="face-id-link">
+                    <img src="images/face-id.png" alt="face-id">
+                </a>
                 <label for="face-id">Register Face ID</label>
-                <div class="face-id-container">
-                    <img src="/images/faceid-wrong.png" alt="Face ID Icon" class="face-id-icon">
-                </div>
             </div>
-            
-
-           
 
             <!-- Row 8: Register Button -->
             <button type="submit" class="register-button">Register</button>
 
-            <!-- Row 9: Sign In Link -->
-            <div class="sign-in">
-                <a href="#">Sign In</a>
+            <!-- Row 9: Login Link -->
+            <div class="login">
+                <span>Do you have an account?</span>
+                <a href="login.html">Login</a>
             </div>
+
         </form>
-        <footer>&copy; All Rights Reserved</footer>
     </div>
+    <footer>&copy; 2024 All Rights Reserved</footer>
 
     <script src="/node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 </body>

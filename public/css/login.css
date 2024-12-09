@@ -1,0 +1,206 @@
+/* Import Poppins Font */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: #e0e0e0;
+    background-size: cover;
+    height: 100%;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center; /* Centers vertically */
+    min-height: 100vh; 
+}
+
+body::before {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 50%; /* Adjust this value to control how much of the page gets the image */
+    background-image: url('/images/bg.png'); /* Path to your background image */
+    background-size: cover;
+    background-position: center;
+    z-index: -1;
+}
+
+/* Form Container */
+.form-container {
+    background: #ffffff;
+    border-radius: 12px;
+    padding: 30px; 
+    width: 100%;
+    max-width: 400px; /* Limit the max width for better design */
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    overflow: hidden;
+    box-sizing: border-box;
+}
+
+/* Form Title Container */
+.form-title-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center; 
+    margin-bottom: 20px;
+}
+
+.logo {
+    width: 90px; 
+    height: auto; 
+}
+
+.form-title {
+    font-size: 30px;
+    font-weight: 600;
+    color: #333;
+    margin-top: 20px; 
+    margin-left: 8px;
+}
+
+/* Form Row Styles */
+.form-row {
+    margin-bottom: 17px;
+}
+
+label {
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 5px;
+    display: block;
+    color: #333;
+}
+
+input {
+    width: 100%;
+    padding: 10px 15px;
+    border: none; /* 1px solid #ccc */
+    border-radius: 4px;
+    font-size: 16px;
+    background-color: rgb(224, 224, 224);
+    box-sizing: border-box;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    transition: box-shadow 0.3s;
+}
+
+input:focus {
+    border-color: #143563;
+    background-color: #ffffff;
+    box-shadow: 0 0 8px rgba(20, 53, 99, 0.2);
+}
+
+/* Forgot Password Link */
+.forgot-pass {
+    text-align: end;
+    margin-bottom: 15px;
+}
+
+.forgot-pass a {
+    color: #007bff;
+    font-size: 14px;
+    text-decoration: none;
+    font-weight: bold; 
+    transition: color 0.3s ease; 
+}
+
+.forgot-pass a:hover {
+    color: #0056b3; 
+    text-decoration: underline; 
+}
+
+/* Login Button */
+button {
+    background-color: #143563;
+    color: white;
+    font-size: 16px; 
+    padding: 12px;
+    width: 100%; 
+    border: none;
+    border-radius: 6px; 
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #003d80;
+}
+
+/* Divider Styles */
+.divider {
+    display: flex;
+    align-items: center;
+    text-align: center;
+    margin: 20px 0; /* Space around the divider */
+}
+
+.divider::before,
+.divider::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background-color: #ccc; /* Line color */
+}
+
+.divider span {
+    padding: 0 10px;
+    font-size: 14px;
+    color: #666; /* Text color */
+    font-weight: bold;
+}
+
+/* Face ID Container */
+.face-id-container {
+    display: flex;
+    flex-direction: column; /* Places label below the image */
+    align-items: center; /* Centers the image and label horizontally */
+    margin-top: 20px; /* Adds space above the container */
+}
+
+.face-id-container img {
+    width: 80px; /* Adjust this as needed */
+    height: 80px; /* Maintain square ratio */
+    object-fit: contain; /* Ensures the image fits without distortion */
+}
+
+.face-id-container label {
+    font-size: 14px; 
+    color: #333; 
+    margin-top: 10px; /* Adds space between the image and label */
+    text-align: center;
+}
+
+/* Sign-up Link */
+.sign-up {
+    display: flex;            
+    justify-content: center;  
+    font-size: 14px;           
+    margin-top: 15px;
+}
+
+.sign-up span {
+    color: #6c757d;
+}
+
+.sign-up a {
+    color: #0056b3;
+    text-decoration: none;
+    font-weight: 600;
+    margin-left: 5px;
+}
+
+.sign-up a:hover {
+    text-decoration: underline;
+}
+
+/* Footer Styles */
+footer {
+    font-size: 14px;
+    color: #6c757d;
+    position: fixed;  
+    bottom: 0;                
+    left: 0;                  
+    margin: 0;              
+    padding: 10px;            
+    width: auto;              
+}

@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EduSync Login</title>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/css/login.css">
+
+    <!-- Bootstrap JS and jQuery (for Bootstrap's JS functionality) -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script defer src="./face-api.min.js"></script>
+    <script defer src="./script.js"></script>
+</head>
+<body>
+
+    <!-- Form Container -->
+    <div class="form-container">
+        <div class="form-title-container">
+            <img src="/images/slogo.png" alt="Logo" class="logo">
+            <h1 class="form-title">EduSync</h1>
+        </div>
+
+        <form action="#">
+            <!-- Row 1: Student ID -->
+            <div class="form-row">
+                <label for="student-id">Student ID</label>
+                <input type="text" id="student-id" placeholder="" required>
+            </div>
+
+            <!-- Row 2: Password -->
+            <div class="form-row">
+                <label for="password">Password</label>
+                <input type="password" id="password" placeholder="" required>
+            </div>
+
+            <div class="forgot-pass">
+                <a href="#">Forgot Password?</a>
+            </div>
+
+            <!-- Login Button -->
+            <button type="submit" class="register-button">Login</button>
+
+            <div class="divider">
+                <span>Or</span>
+            </div>
+            
+            <!-- Login with Face ID -->
+            <div class="face-id-container">
+                <a href="#" id="face-id-link">
+                    <img src="images/face-id.png" alt="face-id">
+                </a>
+                <label for="face-id">Login with Face ID</label>
+            </div>
+
+            <!-- Sign Up Link -->
+            <div class="sign-up">
+                <span>Don't have an account?</span>
+                <a href="signup.html">Sign up</a>
+            </div>
+
+        </form>
+    </div>
+
+    <!-- Footer -->
+    <footer>&copy; 2024 All Rights Reserved</footer>
+
+    <script src="/node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
