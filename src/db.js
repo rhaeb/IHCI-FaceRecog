@@ -8,15 +8,20 @@ const client = new Client({
   port: process.env.DB_PORT,
   database: process.env.DB_NAME,
   user: process.env.DB_USER,
-<<<<<<< HEAD
-  password: "Keiichi@1",
-=======
-  password: "123123",
->>>>>>> 64bb4ddc645a4738cf482f33489a890ebbd7727e
+  password: "000000",
 });
 
 client.connect()
-  .then(() => console.log("Connected to PostgreSQL"))
-  .catch(err => console.error("Connection error", err.stack));
+    .then(() => {
+        console.log('Connected to PostgreSQL');
+        // Perform a simple query to test the connection
+        return client.query('SELECT *');
+    })
+    .then((res) => {
+        console.log('PostgreSQL connection test result:', res.rows[0]);
+    })
+    .catch((err) => {
+        console.error('Error connecting to PostgreSQL:', err);
+    });
 
 module.exports = client;
