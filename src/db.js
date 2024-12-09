@@ -10,8 +10,6 @@ const client = new Client({
   user: process.env.DB_USER,
   password: "000000",
 });
-  password: "12345678",
-});
 
 // client.connect()
 //   .then(() => console.log("Connected to PostgreSQL"))
