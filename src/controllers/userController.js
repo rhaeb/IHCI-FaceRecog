@@ -125,9 +125,32 @@ const loginUser = async (req, res) => {
     }
 };
 
+
+const getUserDetails = async (req, res) => {
+    const { userId } = req.params;
+
+    try {
+        if (!userId) {
+            return res.status(400).json({ message: 'User ID is required.' });
+        }
+
+        const user = await User.findById(userId);
+
+        if (!user) {
+            return res.status(404).json({ message: 'User not found.' });
+        }
+
+        res.json(user); // send back user data as JSON
+    } catch (error) {
+        console.error('Error fetching user:', error);
+        res.status(500).json({ message: 'Server error', error: error.message });
+    }
+};
+
 module.exports = {
     signupUser,
     registerFace,
     loginUser,
-    findUser
+    findUser,
+    getUserDetails
 };
