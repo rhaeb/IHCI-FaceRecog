@@ -19,7 +19,7 @@ client.connect()
     .then(() => {
         console.log('Connected to PostgreSQL');
         // Perform a simple query to test the connection
-        return client.query('SELECT *');
+        return client.query('SELECT * FROM USERS');
     })
     .then((res) => {
         console.log('PostgreSQL connection test result:', res.rows[0]);
