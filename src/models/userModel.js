@@ -84,7 +84,7 @@ class User {
   static async findById(userId) {
       if (!userId) throw new Error('User ID is required.');
 
-      const query = `SELECT * FROM USERS WHERE U_ID = $1`; //change this
+      const query = `SELECT * FROM USERS WHERE U_ID = $1`;
 
       try {
           const result = await db.query(query, [userId]);
@@ -93,6 +93,19 @@ class User {
           console.error('Error fetching user:', error);
           throw error;
       }
+  }
+
+  static async updateUserById(userId, { u_lname, u_fname, u_email }) {
+    const query = 'UPDATE users SET u_lname = $1, u_fname = $2, u_email = $3 WHERE u_id = $4';
+    const values = [u_lname, u_fname, u_email, userId];
+
+    try {
+        const result = await db.query(query, values);
+        return result;
+    } catch (error) {
+        console.error('Database update error:', error);
+        throw new Error('Database update failed');
+    }
   }
 }
 

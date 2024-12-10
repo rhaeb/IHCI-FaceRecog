@@ -2,6 +2,7 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const User = require('../models/userModel');
 const faceapi = require('face-api.js');
+const db = require('../db');
 
 const signupUser = async (req, res) => {
     const { username, password, firstName, lastName } = req.body;
@@ -147,11 +148,24 @@ const getUserDetails = async (req, res) => {
     }
 };
 
+const updateUser = async (req, res) => {
+    const userId = req.params.id;
+    const { u_lname, u_fname, u_email } = req.body;
+
+    try {
+        const result = await User.updateUserById(userId, { u_lname, u_fname, u_email });
+        res.status(200).json({ message: 'User updated successfully', result });
+    } catch (error) {
+        console.error('Database update error:', error);
+        res.status(500).json({ message: 'Database update failed', error: error.message });
+    }
+};
 
 module.exports = {
     signupUser,
     registerFace,
     loginUser,
     findUser,
-    getUserDetails
+    getUserDetails,
+    updateUser
 };
