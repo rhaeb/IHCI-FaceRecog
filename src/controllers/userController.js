@@ -147,6 +147,7 @@ const getUserDetails = async (req, res) => {
     }
 };
 
+
 module.exports = {
     signupUser,
     registerFace,

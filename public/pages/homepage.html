@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/homepage.css">
+    <title>EduSync</title>
+</head>
+<body>
+    <div class="container">
+        <!-- Navbar -->
+        <header class="navbar">
+            <div class="logo">
+                <img src="/images/slogo.png" alt="EduSync Logo">
+                <span>EduSync</span>
+            </div>
+            <div class="user-profile">
+                <img src="/images/caps2.png" alt="User Profile">
+            </div>
+        </header>
+
+        <!-- Main Section -->
+        <div class="main-section">
+            <!-- Info Section -->
+            <aside class="info-section">
+                <p><strong>Main Campus</strong></p>
+                <p id="time">8:00:50 AM</p>
+                <p>Profile</p>
+                <p><img id="icon" src="/images/Vector.png" alt="Icon"> My Profile</p>
+            </aside>
+
+            <!-- Profile Card -->
+            <section class="profile-card">
+                <div class="cover-photo"></div>
+                <div class="background-pic">
+                    <img src="/images/background.svg" alt="Background Picture">
+                </div>
+                <img src="/images/caps2.png" alt="Profile Picture" class="profile-picture">
+                <h2>CEDRICK M. AGTONG</h2>
+                <p>cedrick.agtong@gmail.com</p>
+                <p>Student</p>
+            </section>
+
+            <!-- Profile Information -->
+            <div class="profile-info">
+                <h2>Profile Information</h2>
+                <form id="profileForm"> 
+                    <label for="first-name">First Name</label> 
+                    <input type="text" id="first-name" value="" readonly> 
+                    
+                    <label for="middle-name">Middle Name</label> 
+                    <input type="text" id="middle-name" value="" readonly> 
+                    
+                    <label for="last-name">Last Name</label> 
+                    <input type="text" id="last-name" value="" readonly>
+                    
+                    <div class="column">
+                         <div class="input-box"> 
+                            <label for="id-number">ID Number</label> 
+                            <input type="text" id="id-number" value="" readonly> 
+                        </div> 
+                    <div class="input-box"> 
+                        <label for="phone">Phone</label> 
+                        <input type="text" id="phone" value="" readonly>
+                    </div> 
+                </div> 
+
+                <label for="email">Email</label> 
+                <input type="email" id="email" value="" readonly> 
+                
+                <button type="button" id="edit-button" data-user-id="1">Edit</button>  
+                <!-- change this id  -->
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- POPUP AREA (UPDATE)-->
+    <div id="popup-container"></div>
+
+    <!-- scripts -->
+    <script src="/scripts/update.js"></script>
+</body>
+</html>

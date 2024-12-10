@@ -84,7 +84,7 @@ class User {
   static async findById(userId) {
       if (!userId) throw new Error('User ID is required.');
 
-      const query = `SELECT * FROM USERS WHERE U_ID = $3`; //change this
+      const query = `SELECT * FROM USERS WHERE U_ID = $1`; //change this
 
       try {
           const result = await db.query(query, [userId]);
