@@ -2,7 +2,6 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const User = require('../models/userModel');
 const faceapi = require('face-api.js');
-const db = require('../db');
 
 const signupUser = async (req, res) => {
     const { username, password, firstName, lastName } = req.body;
