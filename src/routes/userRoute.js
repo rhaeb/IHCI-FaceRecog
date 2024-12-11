@@ -10,7 +10,7 @@ router.post('/register-face', userController.registerFace);
 router.post('/login', userController.loginUser);
 router.get('/:userId', authenticateToken, userController.findUser);
 router.get('/details/:userId', authenticateToken, userController.getUserDetails);
-router.put('/:id', authenticateToken, userController.updateUser);
+router.patch('/:id', authenticateToken, userController.updateUser);
 
 // New Route for Email/Password Login
 router.post('/login-password', userController.loginWithPassword);
