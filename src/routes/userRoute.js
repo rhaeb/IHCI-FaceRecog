@@ -1,13 +1,18 @@
+// routes.js or wherever you define your routes
+
 const express = require('express');
 const router = express.Router();
-const user = require('../controllers/userController');
+const userController = require('../controllers/userController');
+const authenticateToken = require('../middleware/authMiddleware');
 
-router.post('/register', user.signupUser);
-router.post('/register-face', user.registerFace);
-router.post('/login', user.loginUser);
-router.get('/find/:userId', user.findUser);
-router.get('/:userId', user.getUserDetails);
-router.patch('/update/:id', user.updateUser);
+router.post('/register', userController.signupUser);
+router.post('/register-face', userController.registerFace);
+router.post('/login', userController.loginUser);
+router.get('/:userId', authenticateToken, userController.findUser);
+router.get('/details/:userId', authenticateToken, userController.getUserDetails);
+router.put('/:id', authenticateToken, userController.updateUser);
 
+// New Route for Email/Password Login
+router.post('/login-password', userController.loginWithPassword);
 
 module.exports = router;
