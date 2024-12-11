@@ -15,4 +15,7 @@ router.patch('/:id', authenticateToken, userController.updateUser);
 // New Route for Email/Password Login
 router.post('/login-password', userController.loginWithPassword);
 
+router.post('/verify-token', authenticateToken, userController.verifyToken);
+
+
 module.exports = router;

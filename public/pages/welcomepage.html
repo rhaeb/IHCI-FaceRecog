@@ -5,6 +5,117 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>EduSync</title>
     <link rel="stylesheet" href="/css/welcomepage.css">
+    <script>
+        (function() {
+            // Function to retrieve user data from localStorage
+            function getStoredUser() {
+                const user = localStorage.getItem('user');
+                return user ? JSON.parse(user) : null;
+            }
+
+            // Function to fetch user details from the server
+            function fetchUserDetails(userId, token) {
+                fetch(`/api/users/${userId}`, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    }
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Failed to fetch user details');
+                    }
+                    return response.json();
+                })
+                .then(user => {
+                    updateWelcomePage(user);
+                })
+                .catch(error => {
+                    console.error('Error fetching user details:', error);
+                    // Redirect to login page on error
+                    window.location.href = 'login.html';
+                });
+            }
+
+            // Function to update the welcome page with user details
+            function updateWelcomePage(user) {
+                // Update the user's full name
+                const userNameElement = document.getElementById('user-name');
+                userNameElement.textContent = `${user.firstName} ${user.lastName}`;
+
+                // Generate initials
+                const initials = generateInitials(user.firstName, user.lastName);
+
+                // Update the profile picture with initials
+                const profilePicElement = document.getElementById('profile-pic');
+                profilePicElement.innerHTML = initials; // Replace the <img> with initials
+                profilePicElement.classList.add('initials'); // Add class for styling
+            }
+
+            // Function to generate initials from first and last names
+            function generateInitials(firstName, lastName) {
+                const firstInitial = firstName.charAt(0).toUpperCase();
+                const lastInitial = lastName.charAt(0).toUpperCase();
+                return `${firstInitial}${lastInitial}`;
+            }
+
+            // Main execution
+            const token = localStorage.getItem('token');
+            if (!token) {
+                // Redirect to login page if no token is found
+                window.location.href = 'login.html';
+            } else {
+                // Optionally, verify the token's validity with the server
+                fetch('/api/users/verify-token', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    }
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Token is invalid or expired');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    console.log(data.message); // 'Token is valid'
+                    // Proceed to fetch user details
+                    const storedUser = getStoredUser();
+                    if (storedUser && storedUser.id) {
+                        fetchUserDetails(storedUser.id, token);
+                    } else {
+                        // If user data is not in localStorage, redirect to login
+                        window.location.href = 'login.html';
+                    }
+                })
+                .catch(error => {
+                    console.error('Token verification failed:', error);
+                    // Redirect to login page on error
+                    window.location.href = 'login.html';
+                });
+            }
+        })();
+    </script>
+    <style>
+        /* Style for initials-based profile picture */
+        .profile-pic.initials {
+            width: 100px;
+            height: 100px;
+            background-color: #007bff; /* Bootstrap primary color */
+            color: #fff;
+            font-size: 36px;
+            font-weight: bold;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-transform: uppercase;
+            margin: 0 auto;
+        }
+    </style>
 </head>
 <body>
     <div class="app">
@@ -14,21 +125,26 @@
                 <span>EduSync</span>
             </div>
             <div class="user-profile">
-                <img src="/images/profile.jpg" alt="User Profile">
+                <!-- Placeholder for profile picture -->
+                <div id="profile-pic">
+                    <img src="/images/profile.jpg" alt="User Profile">
+                </div>
             </div>
         </header>
         <main class="card">
             <div class="card-header">
                 <img src="/images/art.jpg" alt="Header Background">
                 <h1>WELCOME TO <span class="highlight">EduSync</span></h1>
-                <div class="profile-pic">
-                    <img src="/images/profile.jpg" alt="Cedrick Agtong">
+                <div class="profile-pic" id="profile-pic">
+                    <!-- Initially displays static image; will be replaced by initials -->
+                    <img src="/images/profile.jpg" alt="User Profile">
                 </div>
             </div>
             <div class="card-content">
-                <h2>Cedrick Agtong</h2>
+                <!-- Placeholder for dynamic user name -->
+                <h2 id="user-name">User Name</h2>
                 <p>You’re logged in! Please click continue to explore your profile and attendance records</p>
-                <button><a href="/pages/homepage.html" style="color:white;text-decoration:none;">Continue</a></button>
+                <button><a href="homepage.html" style="color:white;text-decoration:none;">Continue</a></button>
             </div>
         </main>
     </div>

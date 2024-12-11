@@ -10,14 +10,14 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 function setupPageLogic(currentPage) {
-    if (currentPage === 'signuptest.html') {
+    if (currentPage === 'signup.html') {
         const signupForm = document.getElementById('signupForm');
         if (signupForm) {
             signupForm.addEventListener('submit', handleSignup);
         } else {
             console.warn('Signup form not found.');
         }
-    } else if (currentPage === 'logintestpass.html') {
+    } else if (currentPage === 'login.html') {
         const loginForm = document.getElementById('loginForm');
         if (loginForm) {
             loginForm.addEventListener('submit', handlePassLogin);
@@ -32,6 +32,10 @@ function setupPageLogic(currentPage) {
         } else {
             console.warn('Edit User form not found.');
         }
+    } else if (currentPage === 'homepage.html' || currentPage === 'profile.html') { // Update with your profile page's actual name
+        checkAuthentication(); // Ensure user is authenticated
+        fetchAndPopulateUserData(); // Populate user data
+
     }
 }
 
@@ -67,7 +71,7 @@ async function handlePassLogin(event) {
             localStorage.setItem('user', JSON.stringify(data.user));
             // Redirect to edit user page or dashboard
             setTimeout(() => {
-                window.location.href = 'edituser.html';
+                window.location.href = '../pages/welcomepage.html';
             }, 2000);
         } else {
             showMessage(data.message || 'Error during login.');
@@ -160,17 +164,23 @@ async function fetchAndPopulateUserData() {
         const data = await response.json();
         if (response.ok) {
             // Populate the form with existing user data
-            document.getElementById('firstName').value = data.firstName || '';
-            document.getElementById('lastName').value = data.lastName || '';
-            document.getElementById('address').value = data.address || '';
-            document.getElementById('phone').value = data.phone || '';
-            document.getElementById('birthDate').value = data.birthDate ? data.birthDate.split('T')[0] : '';
+            document.getElementById('first-name').value = data.firstName || '';
+            document.getElementById('last-name').value = data.lastName || '';
             document.getElementById('gender').value = data.gender || '';
-            document.getElementById('civilStatus').value = data.civilStatus || '';
+            document.getElementById('bdate').value = data.birthDate ? data.birthDate.split('T')[0] : '';
+            document.getElementById('age').value = data.age || '';
+            document.getElementById('phone').value = data.phone || ''; 
+            document.getElementById('cstatus').value = data.civilStatus || '';
+            document.getElementById('wstatus').value = data.workStatus || 'N/A';
+            document.getElementById('guardian').value = data.guardian || 'N/A';
+            document.getElementById('id-number').value = data.studentId || '';
+            document.getElementById('email').value = data.email || '';
+            document.getElementById('address').value = data.address || '';
             showMessage('User data loaded.', 'success');
         } else {
             showMessage(data.message || 'Error fetching user data.');
         }
+
     } catch (error) {
         console.error('Error fetching user data:', error);
         showMessage('Error fetching user data.');
@@ -434,6 +444,36 @@ async function displayUserDetails() {
     }
 }
 
+function logout() {
+    // Remove JWT token and user data from localStorage
+    localStorage.removeItem('token');
+    localStorage.removeItem('user');
+    
+    // Optionally, inform the server about the logout
+    // Uncomment the following lines if you implement a logout endpoint
+    /*
+    fetch('/api/users/logout', {
+        method: 'POST',
+        headers: {
+            'Authorization': `Bearer ${getAuthToken()}`
+        }
+    })
+    .then(response => {
+        if (response.ok) {
+            console.log('Logged out successfully on the server.');
+        } else {
+            console.warn('Server logout failed.');
+        }
+    })
+    .catch(error => {
+        console.error('Error during server logout:', error);
+    });
+    */
+
+    // Redirect to the login page or homepage
+    window.location.href = '../pages/login.html'; // Update the path as needed
+}
+
 function showMessage(message, type = 'error') {
     const messageDiv = document.getElementById('message');
     if (messageDiv) {
@@ -457,5 +497,27 @@ function getUserIdFromToken() {
     } catch (error) {
         console.error('Invalid token:', error);
         return null;
+    }
+}
+
+function checkAuthentication() {
+    const token = getAuthToken();
+    if (!token) {
+        // Token not found, redirect to login
+        window.location.href = 'index.html'; // Update the path as needed
+    } else {
+        // Optionally, verify token validity by making a request to the server
+        // or decoding the token and checking expiration
+        try {
+            const payload = JSON.parse(atob(token.split('.')[1]));
+            const currentTime = Date.now() / 1000;
+            if (payload.exp < currentTime) {
+                // Token has expired
+                logout();
+            }
+        } catch (error) {
+            console.error('Invalid token:', error);
+            logout();
+        }
     }
 }

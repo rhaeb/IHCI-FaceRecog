@@ -4,6 +4,7 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const User = require('../models/userModel');
 const faceapi = require('face-api.js');
+const moment = require('moment');
 
 /**
  * Calculates age based on the provided birth date.
@@ -311,17 +312,21 @@ const getUserDetails = async (req, res) => {
             return res.status(404).json({ message: 'User not found.' });
         }
 
+        console.log('User object:', user);
+        console.log('u_bdate:', user.u_bdate);
+
         // Calculate age
-        const age = calculateAge(user.u_bdate);
+        var bdate = moment(user.u_bdate).utc().format('YYYY-MM-DD');
+        const age = calculateAge(bdate);
 
         console.log('User details fetched for user:', user.u_id);
         res.json({
-            id: user.u_id,
+            studentId: user.u_stud_id,
             email: user.u_email,
             firstName: user.u_fname,
             lastName: user.u_lname,
             age: age,
-            // Include other fields as needed
+            birthDate: bdate,
             address: user.u_address,
             phone: user.u_phone,
             gender: user.u_gender,
@@ -366,6 +371,10 @@ const updateUser = async (req, res) => {
     }
 };
 
+const verifyToken = (req, res) => {
+    res.json({ message: 'Token is valid' });
+};
+
 module.exports = {
     signupUser,
     registerFace,
@@ -373,5 +382,6 @@ module.exports = {
     loginUser,
     findUser,
     getUserDetails,
-    updateUser
+    updateUser,
+    verifyToken
 };
