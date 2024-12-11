@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Face Recognition Signup and Login</title>
-    <!-- Bootstrap CSS for styling -->
+    <title>Face Recognition Signup</title>
+    <!-- Bootstrap CSS -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="/node_modules/bootstrap/dist/css/bootstrap.min.css">
     
-    <!-- Bootstrap JS and jQuery (for Bootstrap's JS functionality) -->
+    <!-- JS Libraries -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
@@ -17,47 +17,42 @@
     <link rel="stylesheet" href="/css/signup.css">
 </head>
 <body>
-    <!-- Form Container -->
     <div class="form-container">
         <div class="form-title-container">
             <img src="/images/slogo.png" alt="Logo" class="logo">
             <h1 class="form-title">EduSync</h1>
         </div>
 
-        <form action="#">
+        <form id="signupForm">
             <!-- Row 1: Student ID and Phone -->
             <div class="form-row">
                 <div>
-                    <label for="student-id">Student ID</label>
-                    <input type="text" id="student-id" >
+                    <label for="id-number">Student ID Number</label>
+                    <input type="text" id="id-number">
                 </div>
                 <div>
-                    <label for="phone" >Phone</label>
-                    <input type="text" id="phone" >
+                    <label for="phone">Contact Number</label>
+                    <input type="text" id="phone">
                 </div>
             </div>
 
-            <!-- Row 2: Last Name, Middle Name, First Name -->
+            <!-- Row 2: Last Name and First Name -->
             <div class="form-row name-row">
                 <div>
                     <label for="last-name">Last Name</label>
-                    <input type="text" id="last-name" >
-                </div>
-                <div>
-                    <label for="middle-name">Middle Name</label>
-                    <input type="text" id="middle-name" >
+                    <input type="text" id="last-name">
                 </div>
                 <div>
                     <label for="first-name">First Name</label>
-                    <input type="text" id="first-name" >
+                    <input type="text" id="first-name">
                 </div>
             </div>
 
             <!-- Row 3: Birthdate and Gender -->
             <div class="form-row">
                 <div>
-                    <label for="birthdate">Birthdate</label>
-                    <input type="date" id="birthdate">
+                    <label for="bdate">Birthdate</label>
+                    <input type="date" id="bdate">
                 </div>
                 <div>
                     <label for="gender">Gender</label>
@@ -69,31 +64,54 @@
                 </div>
             </div>
 
-            <!-- Row 4: Email -->
+            <!-- Row 4: Email and Address -->
             <div class="form-row">
                 <div>
                     <label for="email">Email</label>
-                    <input type="email" id="email" >
+                    <input type="email" id="email">
+                </div>
+                <div>
+                    <label for="address">Address</label>
+                    <input type="text" id="address">
                 </div>
             </div>
 
-            <!-- Row 5: Register Face ID -->
+            <!-- Row 5: Civil Status and Work Status -->
+            <div class="form-row">
+                <div>
+                    <label for="cstatus">Civil Status</label>
+                    <input type="text" id="cstatus">
+                </div>
+                <div>
+                    <label for="wstatus">Work Status</label>
+                    <input type="text" id="wstatus">
+                </div>
+            </div>
+
+            <!-- Row 6: Guardian -->
+            <div class="form-row">
+                <div>
+                    <label for="guardian">Guardian/Parent</label>
+                    <input type="text" id="guardian">
+                </div>
+            </div>
+
+            <!-- Face Recognition Registration -->
             <div class="face-id-container">
                 <a href="#" id="face-id-link">
-                    <img src="/images/face-id.png" alt="face-id">
+                    <img src="/images/face-id.png" alt="Register Face ID">
                 </a>
-                <label for="face-id">Register Face ID</label>
+                <label for="face-id-link">Register Face ID</label>
             </div>
 
-            <!-- Row 8: Register Button -->
+            <!-- Submit Button -->
             <button type="submit" class="register-button">Register</button>
 
-            <!-- Row 9: Login Link -->
+            <!-- Login Link -->
             <div class="login">
-                <span>Do you have an account?</span>
+                <span>Already have an account?</span>
                 <a href="/pages/login.html">Login</a>
             </div>
-
         </form>
     </div>
     <footer>&copy; 2024 All Rights Reserved</footer>

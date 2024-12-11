@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 function setupPageLogic(currentPage) {
-    if (currentPage === 'signuptest.html') {
+    if (currentPage === 'signup.html') {
         const signupForm = document.getElementById('signupForm');
         if (signupForm) {
             signupForm.addEventListener('submit', handleSignup);
