@@ -5,6 +5,35 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>EduSync</title>
     <link rel="stylesheet" href="/css/welcomepage.css">
+    <script>
+        (function() {
+            const token = localStorage.getItem('token');
+            if (!token) {
+                // Redirect to login page if no token is found
+                window.location.href = 'index.html'; // Update the path as needed
+            } else {
+                // Optionally, verify the token's validity with the server
+                fetch('/api/users/verify-token', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    }
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Token is invalid or expired');
+                    }
+                    return response.json();
+                })
+                .catch(error => {
+                    console.error('Token verification failed:', error);
+                    // Redirect to login page on error
+                    window.location.href = 'index.html';
+                });
+            }
+        })();
+    </script>
 </head>
 <body>
     <div class="app">
@@ -28,7 +57,7 @@
             <div class="card-content">
                 <h2>Cedrick Agtong</h2>
                 <p>You’re logged in! Please click continue to explore your profile and attendance records</p>
-                <button><a href="/pages/homepage.html" style="color:white;text-decoration:none;">Continue</a></button>
+                <button><a href="homepage.html" style="color:white;text-decoration:none;">Continue</a></button>
             </div>
         </main>
     </div>

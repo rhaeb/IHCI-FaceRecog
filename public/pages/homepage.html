@@ -5,6 +5,35 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/css/homepage.css">
     <title>EduSync</title>
+    <script>
+        (function() {
+            const token = localStorage.getItem('token');
+            if (!token) {
+                // Redirect to login page if no token is found
+                window.location.href = 'index.html'; // Update the path as needed
+            } else {
+                // Optionally, verify the token's validity with the server
+                fetch('/api/users/verify-token', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    }
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Token is invalid or expired');
+                    }
+                    return response.json();
+                })
+                .catch(error => {
+                    console.error('Token verification failed:', error);
+                    // Redirect to login page on error
+                    window.location.href = 'index.html';
+                });
+            }
+        })();
+    </script>
 </head>
 <body>
     <div class="container">
@@ -45,28 +74,67 @@
             <div class="profile-info">
                 <h2>Profile Information</h2>
                 <form id="profileForm"> 
-                    <label for="first-name">First Name</label> 
-                    <input type="text" id="first-name" value="" readonly> 
-                    
-                    <label for="middle-name">Middle Name</label> 
-                    <input type="text" id="middle-name" value="" readonly> 
-                    
-                    <label for="last-name">Last Name</label> 
-                    <input type="text" id="last-name" value="" readonly>
-                    
+                        <div class="column">
+                            <div class="input-box"> 
+                                <label for="first-name">First Name</label> 
+                                <input type="text" id="first-name" value="" readonly>
+                            </div>
+                            
+                            <div class="input-box"> 
+                                <label for="last-name">Last Name</label> 
+                                <input type="text" id="last-name" value="" readonly>
+                            </div>
+                            
+                            <div class="input-box"> 
+                                <label for="gender">Gender</label> 
+                                <input type="text" id="gender" value="" readonly>
+                            </div>
+                    </div>
+                    <div class="column">
+                            <div class="input-box"> 
+                                <label for="bdate">Birthdate</label> 
+                                <input type="text" id="bdate" value="" readonly>
+                            </div>
+                            
+                            <div class="input-box"> 
+                                <label for="age">Age</label> 
+                                <input type="number" id="age" value="" readonly>
+                            </div>
+                            
+                            <div class="input-box"> 
+                                <label for="phone">Contact Number</label> 
+                                <input type="text" id="phone" value="" readonly>
+                            </div>
+                    </div> 
+                    <div class="column">
+                        <div class="input-box"> 
+                            <label for="cstatus">Civil Status</label> 
+                            <input type="text" id="cstatus" value="" readonly>
+                        </div>
+                        
+                        <div class="input-box"> 
+                            <label for="wstatus">Work Status</label> 
+                            <input type="text" id="wstatus" value="" readonly>
+                        </div>
+                        
+                        <div class="input-box"> 
+                            <label for="guardian">Guardian/Parent</label> 
+                            <input type="text" id="guardian" value="" readonly>
+                        </div>
+                    </div> 
                     <div class="column">
                          <div class="input-box"> 
-                            <label for="id-number">ID Number</label> 
-                            <input type="text" id="id-number" value="" readonly> 
+                            <label for="id-number">Student ID Number</label> 
+                            <input type="number" id="id-number" value="" readonly> 
                         </div> 
-                    <div class="input-box"> 
-                        <label for="phone">Phone</label> 
-                        <input type="text" id="phone" value="" readonly>
+                        <div class="input-box"> 
+                            <label for="email">Email</label> 
+                            <input type="email" id="email" value="" readonly> 
+                        </div> 
                     </div> 
-                </div> 
 
-                <label for="email">Email</label> 
-                <input type="email" id="email" value="" readonly> 
+                <label for="address">Address</label> 
+                <input type="text" id="address" value="" readonly> 
                 
                 <button type="button" id="edit-button" data-user-id="1">Edit</button>  
                 <!-- Replace with the actual user ID  -->
@@ -79,6 +147,8 @@
     <div id="popup-container"></div>
 
     <!-- scripts -->
-    <script src="/scripts/update.js"></script>
+    <!--<script src="/scripts/update.js"></script>waitsaha :>-->
+    <script src="../scripts/script.js"></script>
+
 </body>
 </html>
