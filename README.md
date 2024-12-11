@@ -31,6 +31,9 @@ Starting steps as collaborator:
         u_created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     );
 
+    ALTER TABLE users
+    ALTER COLUMN u_passw DROP NOT NULL;
+
  9. Run by: "npm start" either through vscode terminal or CMD with the repository directory
 
 Make sure to:
