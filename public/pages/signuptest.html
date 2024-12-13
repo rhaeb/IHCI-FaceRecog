@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Sign Up</h1>
+        <form id="signupForm">
+            <input type="email" id="email" placeholder="Email" required>
+            <input type="password" id="password" placeholder="Password" required>
+            <input type="text" id="firstName" placeholder="First Name" required>
+            <input type="text" id="lastName" placeholder="Last Name" required>
+            <input type="number" id="studentId" placeholder="Student ID" required>
+            <input type="text" id="address" placeholder="Address" required>
+            <input type="tel" id="phone" placeholder="Phone Number" pattern="[0-9]{11}" required>
+            <input type="date" id="birthDate" placeholder="Birth Date" required>
+            <select id="gender" required>
+                <option value="" disabled selected>Select Gender</option>
+                <option value="M">Male</option>
+                <option value="F">Female</option>
+                <option value="O">Other</option>
+            </select>
+            <input type="text" id="civilStatus" placeholder="Civil Status" required>
+            <button type="submit">Sign Up</button>
+        </form>
+        <div id="message"></div>
+    </div>
+    <script src="../scripts/face-api.min.js"></script>
+    <script src="../scripts/script.js"></script>
+</body>
+</html>
