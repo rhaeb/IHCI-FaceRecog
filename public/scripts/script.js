@@ -3,6 +3,7 @@
 let faceDescriptor = null;
 let video = null;
 let canvas = null;
+let collectedFaceDescriptor = null;
 
 document.addEventListener('DOMContentLoaded', () => {
     const currentPage = window.location.pathname.split('/').pop();
@@ -13,7 +14,7 @@ function setupPageLogic(currentPage) {
     if (currentPage === 'signup.html') {
         const signupForm = document.getElementById('signupForm');
         if (signupForm) {
-            signupForm.addEventListener('submit', handleSignup);
+            signupForm.addEventListener('submit', handleSignup2);
         } else {
             console.warn('Signup form not found.');
         }
@@ -192,7 +193,6 @@ async function handleSignup(event) {
     console.log('Handling signup.');
 
     const email = document.getElementById('email').value.trim();
-    const password = document.getElementById('password').value;
     const firstName = document.getElementById('firstName').value.trim();
     const lastName = document.getElementById('lastName').value.trim();
     const studentId = document.getElementById('studentId').value.trim();
@@ -201,9 +201,11 @@ async function handleSignup(event) {
     const birthDate = document.getElementById('birthDate').value;
     const gender = document.getElementById('gender').value;
     const civilStatus = document.getElementById('civilStatus').value.trim();
+    //const workStatus = document.getElementById('wstatus').value;
+    //const guardian = document.getElementById('guardian').value;
 
-    // Basic validation
-    if (!email || !password || !firstName || !lastName || !studentId || !address || !phone || !birthDate || !gender || !civilStatus) {
+    // Basic validation || !password ; const password = document.getElementById('password').value;  || !workStatus
+    if (!email  || !firstName || !lastName || !studentId || !address || !phone || !birthDate || !gender || !civilStatus) {
         showMessage('All fields are required.');
         return;
     }
@@ -229,7 +231,9 @@ async function handleSignup(event) {
         const data = await response.json();
         if (response.ok) {
             showMessage('User registered. Starting face recognition...');
-            startFaceRecognition('register', email);
+            //startFaceRecognition('register', email);
+            // Open the face recognition popup
+            openFaceRecognitionPopup();
         } else {
             showMessage(data.message);
         }
@@ -238,6 +242,142 @@ async function handleSignup(event) {
         showMessage('Error registering user');
     }
 }
+
+// Function to handle signup form submission
+async function handleSignup2(event) {
+    event.preventDefault();
+    console.log('Handling signup.');
+
+    const email = document.getElementById('email').value.trim();
+    const firstName = document.getElementById('firstName').value.trim();
+    const lastName = document.getElementById('lastName').value.trim();
+    const studentId = document.getElementById('studentId').value.trim();
+    const address = document.getElementById('address').value.trim();
+    const phone = document.getElementById('phone').value.trim();
+    const birthDate = document.getElementById('birthDate').value;
+    const gender = document.getElementById('gender').value;
+    const civilStatus = document.getElementById('civilStatus').value.trim();
+
+    // Basic validation  || !password 
+    if (!email || !firstName || !lastName || !studentId || !address || !phone || !birthDate || !gender || !civilStatus) {
+        showMessage('All fields are required.');
+        return;
+    }
+
+    // Store the form data temporarily
+    window.signupData = {
+        email,
+        firstName,
+        lastName,
+        studentId,
+        address,
+        phone,
+        birthDate,
+        gender,
+        civilStatus
+    };
+
+    // Open the face recognition popup
+    openFaceRecognitionPopup();
+}
+
+// Function to open the face recognition popup
+function openFaceRecognitionPopup() {
+    // Calculate the center position for the popup
+    const width = 700;
+    const height = 600;
+    const left = (screen.width / 2) - (width / 2);
+    const top = (screen.height / 2) - (height / 2);
+
+    // Open the popup window
+    const popup = window.open('face-recognition.html', 'FaceRecognition', `width=${width},height=${height},top=${top},left=${left}`);
+
+    if (!popup) {
+        showMessage('Unable to open popup. Please allow popups for this website.');
+    }
+}
+
+// Function to receive face descriptor from the popup
+function receiveFaceDescriptor(descriptor) {
+    collectedFaceDescriptor = descriptor;
+    console.log('Received face descriptor from popup:', descriptor);
+    // Proceed to submit the form data including face descriptor
+    submitSignupForm();
+}
+
+// Function to submit the signup form data including face descriptor
+async function submitSignupForm() {
+    if (!window.signupData || !collectedFaceDescriptor) {
+        showMessage('Signup data or face descriptor is missing.');
+        return;
+    }
+
+    const { email, password, firstName, lastName, studentId, address, phone, birthDate, gender, civilStatus } = window.signupData;
+
+    try {
+        // Register the user without the face descriptor
+        const response = await fetch('/api/users/register', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                email,
+                password,
+                firstName,
+                lastName,
+                studentId,
+                address,
+                phone,
+                birthDate,
+                gender,
+                civilStatus
+            })
+        });
+
+        const data = await response.json();
+        if (response.ok) {
+            showMessage('User registered successfully. Associating face data...', 'success');
+
+            // Now send the face descriptor
+            await registerFace(email, collectedFaceDescriptor);
+
+            showMessage('Signup completed successfully. Redirecting...', 'success');
+            setTimeout(() => {
+                window.location.href = '../index.html'; // Update to the correct page
+            }, 2000);
+        } else {
+            showMessage(data.message);
+        }
+    } catch (error) {
+        console.error('Error registering:', error);
+        showMessage('Error registering user');
+    }
+}
+
+// Function to register the face descriptor with the server
+async function registerFace(email, faceDescriptor) {
+    const faceData = {
+        email: email,
+        faceDescriptor: Array.from(faceDescriptor)
+    };
+
+    console.log('Sending face data to the server:', faceData);
+
+    try {
+        const response = await fetch('/api/users/register-face', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(faceData)
+        });
+
+        const data = await response.json();
+        showMessage(data.message, data.success ? 'success' : 'error');
+
+    } catch (error) {
+        console.error('Error registering face:', error);
+        showMessage('Error registering face');
+    }
+}
+
 
 async function handleLogin(event) {
     event.preventDefault();
@@ -315,7 +455,7 @@ async function startFaceRecognition(mode, email) {
 
                     try {
                         if (mode === 'register') {
-                            await registerFace(email, faceDescriptor);
+                            await registerFace2(email, faceDescriptor);
                         } else if (mode === 'login') {
                             await loginWithFace(email, faceDescriptor);
                         }
@@ -351,7 +491,7 @@ async function loadFaceApiModels() {
     }
 }
 
-async function registerFace(email, faceDescriptor) {
+async function registerFace2(email, faceDescriptor) {
     const faceData = {
         email: email,
         faceDescriptor: Array.from(faceDescriptor)

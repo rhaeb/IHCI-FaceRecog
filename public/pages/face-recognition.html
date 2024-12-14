@@ -1,0 +1,60 @@
+<!-- face-recognition.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Face Recognition</title>
+    <!-- Include face-api.js -->
+    <script defer src="../scripts/face-api.min.js"></script>
+    <script defer src="../scripts/face-recognition-popup.js"></script>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+        #video-container {
+            position: relative;
+            width: 640px;
+            height: 480px;
+        }
+        video, canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 640px;
+            height: 480px;
+            border: 1px solid #ccc;
+        }
+        #message {
+            margin-top: 10px;
+            font-weight: bold;
+            text-align: center;
+        }
+        #capture-button {
+            margin-top: 10px;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        #capture-button:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+    </style>
+</head>
+<body>
+    <h2>Face Recognition</h2>
+    <div id="video-container">
+        <video id="video" width="640" height="480" autoplay muted></video>
+        <canvas id="overlay" width="640" height="480"></canvas>
+    </div>
+    <div id="message">Initializing...</div>
+    <button id="capture-button" disabled>Capture Face</button>
+</body>
+</html>

@@ -100,12 +100,23 @@ class User {
     static async updateFaceData(userId, faceData) {
         const query = `
             UPDATE users
-            SET u_face_data = $1
+            SET u_face_data = $1::jsonb
             WHERE u_id = $2
             RETURNING *
         `;
         try {
-            const values = [faceData, userId];
+            // Ensure faceData is a valid JSON array
+            if (!Array.isArray(faceData)) {
+                throw new Error('faceData must be a valid array.');
+            }
+    
+            // Convert faceData to a properly formatted JSON string
+            const jsonFaceData = JSON.stringify(faceData);
+    
+            // Log the data being sent to the database
+            console.log('Updating face data with:', jsonFaceData);
+    
+            const values = [jsonFaceData, userId];
             const result = await db.query(query, values);
             return result.rows[0];
         } catch (error) {

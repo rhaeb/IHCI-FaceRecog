@@ -35,7 +35,7 @@ const signupUser = async (req, res) => {
     console.log('Received signup data:', JSON.stringify(req.body, null, 2)); // Enhanced logging
     const { 
         email, 
-        password, 
+        //password, 
         firstName, 
         lastName, 
         studentId, 
@@ -47,8 +47,8 @@ const signupUser = async (req, res) => {
     } = req.body;
 
     try {
-        // Validate required fields
-        if (!email || !password || !firstName || !lastName || !studentId || !address || !phone || !birthDate || !gender || !civilStatus) {
+        // Validate required fields ; || !password
+        if (!email || !firstName || !lastName || !studentId || !address || !phone || !birthDate || !gender || !civilStatus) {
             console.log('Signup failed: Missing required fields.');
             return res.status(400).json({ message: 'All fields are required.' });
         }
@@ -79,15 +79,15 @@ const signupUser = async (req, res) => {
         }
 
         // Hash password before storing it
-        console.log('Hashing password.');
-        const hashedPassword = await bcrypt.hash(password, 10);
-        console.log('Password hashed.');
+        // console.log('Hashing password.');
+        // const hashedPassword = await bcrypt.hash(password, 10);
+        // console.log('Password hashed.');
 
         // Create new user
         console.log('Creating new user in the database.');
         const newUser = await User.create({
             u_email: email,
-            u_passw: hashedPassword,
+            //u_passw: hashedPassword,
             u_fname: firstName,
             u_lname: lastName,
             u_stud_id: parsedStudentId,
@@ -115,21 +115,37 @@ const registerFace = async (req, res) => {
     try {
         console.log('Registering face for user:', email);
         const user = await User.findOne({ u_email: email });
+
         if (!faceDescriptor || !Array.isArray(faceDescriptor)) {
             console.log('RegisterFace failed: Invalid face descriptor.');
             return res.status(400).json({ message: 'Invalid face descriptor' });
         }
+
         if (!user) {
             console.log('RegisterFace failed: User not found.');
             return res.status(400).json({ message: 'User not found' });
         }
 
-        // Convert faceDescriptor to Float32Array
-        const descriptor = new Float32Array(faceDescriptor);
+        // Validate faceDescriptor length and contents
+        const EXPECTED_DESCRIPTOR_LENGTH = 128; // Adjust based on your face embedding model
+        if (
+            faceDescriptor.length !== EXPECTED_DESCRIPTOR_LENGTH ||
+            !faceDescriptor.every(num => typeof num === 'number' && !isNaN(num))
+        ) {
+            console.log('RegisterFace failed: Face descriptor has invalid length or contains non-numeric values.');
+            return res.status(400).json({ message: 'Invalid face descriptor format.' });
+        }
 
-        await User.updateFaceData(user.u_id, descriptor);
+        // Convert to standard array
+        const descriptorArray = Array.from(faceDescriptor);
+
+        // Log the descriptorArray to verify its structure
+        console.log('Descriptor Array:', descriptorArray);
+
+        // Update face data in the database
+        await User.updateFaceData(user.u_id, descriptorArray);
+
         console.log('Face registered successfully for user:', user.u_id);
-
         return res.status(200).json({ message: 'Face registered successfully' });
     } catch (error) {
         console.error('Error registering face:', error);

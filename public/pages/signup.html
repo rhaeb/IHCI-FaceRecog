@@ -24,11 +24,23 @@
         </div>
 
         <form id="signupForm">
-            <!-- Row 1: Student ID and Phone -->
+            <!-- Row 1: Last Name and First Name -->
+            <div class="form-row name-row">
+                <div>
+                    <label for="lastName">Last Name</label>
+                    <input type="text" id="lastName">
+                </div>
+                <div>
+                    <label for="firstName">First Name</label>
+                    <input type="text" id="firstName">
+                </div>
+            </div>
+
+            <!-- Row 2: Student ID and Phone -->
             <div class="form-row">
                 <div>
-                    <label for="id-number">Student ID Number</label>
-                    <input type="text" id="id-number">
+                    <label for="studentId">Student ID Number</label>
+                    <input type="text" id="studentId">
                 </div>
                 <div>
                     <label for="phone">Contact Number</label>
@@ -36,23 +48,11 @@
                 </div>
             </div>
 
-            <!-- Row 2: Last Name and First Name -->
-            <div class="form-row name-row">
-                <div>
-                    <label for="last-name">Last Name</label>
-                    <input type="text" id="last-name">
-                </div>
-                <div>
-                    <label for="first-name">First Name</label>
-                    <input type="text" id="first-name">
-                </div>
-            </div>
-
             <!-- Row 3: Birthdate and Gender -->
             <div class="form-row">
                 <div>
-                    <label for="bdate">Birthdate</label>
-                    <input type="date" id="bdate">
+                    <label for="birthDate">Birthdate</label>
+                    <input type="date" id="birthDate">
                 </div>
                 <div>
                     <label for="gender">Gender</label>
@@ -71,28 +71,16 @@
                     <input type="email" id="email">
                 </div>
                 <div>
-                    <label for="address">Address</label>
-                    <input type="text" id="address">
+                    <label for="civilStatus">Civil Status</label>
+                    <input type="text" id="civilStatus">
                 </div>
             </div>
 
             <!-- Row 5: Civil Status and Work Status -->
             <div class="form-row">
                 <div>
-                    <label for="cstatus">Civil Status</label>
-                    <input type="text" id="cstatus">
-                </div>
-                <div>
-                    <label for="wstatus">Work Status</label>
-                    <input type="text" id="wstatus">
-                </div>
-            </div>
-
-            <!-- Row 6: Guardian -->
-            <div class="form-row">
-                <div>
-                    <label for="guardian">Guardian/Parent</label>
-                    <input type="text" id="guardian">
+                    <label for="address">Address</label>
+                    <input type="text" id="address">
                 </div>
             </div>
 
