@@ -90,24 +90,6 @@ input:focus {
     box-shadow: 0 0 8px rgba(20, 53, 99, 0.2);
 }
 
-/* Forgot Password Link */
-.forgot-pass {
-    text-align: end;
-    margin-bottom: 15px;
-}
-
-.forgot-pass a {
-    color: #007bff;
-    font-size: 14px;
-    text-decoration: none;
-    font-weight: bold; 
-    transition: color 0.3s ease; 
-}
-
-.forgot-pass a:hover {
-    color: #0056b3; 
-    text-decoration: underline; 
-}
 
 /* Login Button */
 button {
@@ -120,34 +102,13 @@ button {
     border-radius: 6px; 
     cursor: pointer;
     transition: background-color 0.3s ease;
+
 }
 
 button:hover {
     background-color: #003d80;
 }
 
-/* Divider Styles */
-.divider {
-    display: flex;
-    align-items: center;
-    text-align: center;
-    margin: 20px 0; /* Space around the divider */
-}
-
-.divider::before,
-.divider::after {
-    content: '';
-    flex: 1;
-    height: 1px;
-    background-color: #ccc; /* Line color */
-}
-
-.divider span {
-    padding: 0 10px;
-    font-size: 14px;
-    color: #666; /* Text color */
-    font-weight: bold;
-}
 
 /* Face ID Container */
 .face-id-container {
@@ -155,18 +116,19 @@ button:hover {
     flex-direction: column; /* Places label below the image */
     align-items: center; /* Centers the image and label horizontally */
     margin-top: 20px; /* Adds space above the container */
+    margin-bottom: 30px;
 }
 
 .face-id-container img {
-    width: 80px; /* Adjust this as needed */
-    height: 80px; /* Maintain square ratio */
+    width: 100px; /* Adjust this as needed */
+    height: 100px; /* Maintain square ratio */
     object-fit: contain; /* Ensures the image fits without distortion */
 }
 
 .face-id-container label {
     font-size: 14px; 
     color: #333; 
-    margin-top: 10px; /* Adds space between the image and label */
+    margin-top: 15px; /* Adds space between the image and label */
     text-align: center;
 }
 
