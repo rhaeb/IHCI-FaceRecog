@@ -7,7 +7,7 @@ const authenticateToken = require('../middleware/authMiddleware');
 
 router.post('/register', userController.signupUser);
 router.post('/register-face', userController.registerFace);
-router.post('/login', userController.loginUser);
+router.post('/login/face-recognition', userController.loginUser);
 router.get('/:userId', authenticateToken, userController.findUser);
 router.get('/details/:userId', authenticateToken, userController.getUserDetails);
 router.patch('/:id', authenticateToken, userController.updateUser);

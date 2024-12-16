@@ -194,61 +194,78 @@ const findUser = async (req, res) => {
  * Logs in a user using face recognition.
  */
 const loginUser = async (req, res) => {
-    const { email, faceDescriptor } = req.body;
+    const { faceDescriptor } = req.body;
 
     try {
-        if (!email || !faceDescriptor) {
-            console.log('Login failed: email and face data are required.');
-            return res.status(400).json({ message: 'email and face data are required.' });
+        if (!faceDescriptor || !Array.isArray(faceDescriptor)) {
+            console.log('Login failed: Invalid or missing face data.');
+            return res.status(400).json({ message: 'Invalid face data.' });
         }
 
-        console.log('Attempting login for user:', email);
-        const user = await User.findOne({ u_email: email });
+        console.log('Attempting login using face recognition');
 
-        if (!user) {
-            console.log('Login failed: User not found.');
-            return res.status(400).json({ message: 'User not found' });
+        // Fetch all users and their stored face data
+        const users = await User.find();
+
+        if (!users || users.length === 0) {
+            console.log('Login failed: No users found.');
+            return res.status(400).json({ message: 'No users found' });
         }
 
-        if (user.u_face_data) {
-            const storedFaceData = user.u_face_data; // Should be Float32Array
+        let matchedUser = null;
 
-            // Create LabeledFaceDescriptors
-            const labeledFaceDescriptors = [
-                new faceapi.LabeledFaceDescriptors(email, [storedFaceData])
-            ];
+        // Loop through all users and compare face data
+        for (let user of users) {
+            if (user.u_face_data) {
+                console.log(`Parsing face data for user ID: ${user.u_id}`);
+                console.log(`Stored u_face_data: ${user.u_face_data}`);
 
-            const faceMatcher = new faceapi.FaceMatcher(labeledFaceDescriptors, 0.6);
+                try {
+                    const storedFaceData = JSON.parse(user.u_face_data);  // Assuming stored face data is in JSON
 
-            const match = faceMatcher.findBestMatch(new Float32Array(faceDescriptor));
-
-            console.log('Face match distance:', match.distance);
-            if (match.distance < 0.6) {
-                console.log('Face matched successfully for user:', user.u_id);
-                const token = jwt.sign({ userId: user.u_id }, process.env.JWT_SECRET, { expiresIn: '1h' });
-
-                // Calculate age
-                const age = calculateAge(user.u_bdate);
-
-                return res.json({ 
-                    message: 'Login successful', 
-                    token,
-                    user: {
-                        id: user.u_id,
-                        email: user.u_email,
-                        firstName: user.u_fname,
-                        lastName: user.u_lname,
-                        age: age
+                    // Validate storedFaceData structure
+                    if (!Array.isArray(storedFaceData)) {
+                        console.error(`Stored u_face_data for user ID ${user.u_id} is not an array.`);
+                        continue; // Skip this user
                     }
-                });
-            } else {
-                console.log('Login failed: Face data mismatch for user:', user.u_id);
-                return res.status(400).json({ message: 'Face data mismatch' });
+
+                    // Convert providedFaceDescriptor to Float32Array
+                    const providedFaceData = new Float32Array(faceDescriptor);
+
+                    const isMatch = User.compareFaceDescriptors(providedFaceData, storedFaceData);
+                    if (isMatch) {
+                        matchedUser = user;
+                        break;  // Stop once a match is found
+                    }
+                } catch (parseError) {
+                    console.error(`Error parsing u_face_data for user ID ${user.u_id}:`, parseError);
+                    continue;  // Skip this user and proceed to the next
+                }
             }
         }
 
-        console.log('Login failed: Face data not registered for user:', user.u_id);
-        return res.status(400).json({ message: 'Face data not registered' });
+        if (matchedUser) {
+            // Successful login, generate JWT token
+            const token = jwt.sign({ userId: matchedUser.u_id }, process.env.JWT_SECRET, { expiresIn: '1h' });
+
+            // Calculate the user's age
+            const age = calculateAge(matchedUser.u_bdate);
+
+            return res.json({
+                message: 'Login successful',
+                token,
+                user: {
+                    id: matchedUser.u_id,
+                    email: matchedUser.u_email,
+                    firstName: matchedUser.u_fname,
+                    lastName: matchedUser.u_lname,
+                    age: age
+                }
+            });
+        } else {
+            console.log('Login failed: No matching face data.');
+            return res.status(400).json({ message: 'No matching face data.' });
+        }
     } catch (error) {
         console.error('Error logging in:', error);
         return res.status(500).json({ message: 'Error logging in' });

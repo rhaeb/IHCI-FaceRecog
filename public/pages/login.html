@@ -13,41 +13,78 @@
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    
+    <!-- face-api.js -->
     <script defer src="../scripts/face-api.min.js"></script>
     <script defer src="../scripts/script.js"></script>
+    
+    <style>
+        .camera-container {
+            display: flex;
+            justify-content: center;
+            margin: 20px 0;
+        }
+        
+        #videoInput {
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            width: 100%;
+            max-width: 480px;
+            height: auto;
+        }
+    </style>
 </head>
 <body>
 
     <!-- Form Container -->
     <div class="form-container">
-        <div class="form-title-container">
+        <div class="form-title-container text-center">
             <img src="../images/slogo.png" alt="Logo" class="logo">
             <h1 class="form-title">EduSync</h1>
         </div>
-
-         <!-- Login with Face ID -->
-         <div class="face-id-container">
-            <a href="#" id="face-id-link">
-                <img src="../images/face-id.png" alt="face-id">
-            </a>
-            <label for="face-id">Login with Face ID</label> 
-        </div>
-
-            <!-- Login Button -->
-            <button type="submit" class="register-button" >Login</button>
-
+        <form id="loginForm">
+            
+            <!-- Login with Face ID -->
+            <div class="face-id-container text-center">
+                <button type="button" id="face-id-link" class="btn btn-primary btn-lg">
+                    <img src="../images/face-id.png" alt="face-id" style="width: 50px; height: 50px;">
+                    Login with Face ID
+                </button>
+            </div>
 
             <!-- Sign Up Link -->
-            <div class="sign-up">
+            <div class="sign-up text-center mt-3">
                 <span>Don't have an account?</span>
                 <a href="../pages/signup.html">Sign up</a>
             </div>
         </form>
     </div>
 
-    <!-- Footer -->
-    <footer>&copy; 2024 All Rights Reserved</footer>
+    <!-- Face Recognition Modal -->
+    <div class="modal fade" id="faceLoginModal" tabindex="-1" aria-labelledby="faceLoginModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content" aria-hidden="false">
+            <div class="modal-header">
+                <h5 class="modal-title" id="faceLoginModalLabel">Face Recognition Login</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="modalCloseBtn">
+                <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body text-center">
+                <div class="camera-container">
+                    <video id="videoInput" autoplay muted></video>
+                </div>
+                <p id="statusMessage">Align your face within the frame...</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" id="modalCancelBtn">Cancel</button>
+            </div>
+            </div>
+        </div>
+    </div>
 
-    <script src="/node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Footer -->
+    <footer class="text-center mt-5">&copy; 2024 All Rights Reserved</footer>
+
 </body>
 </html>

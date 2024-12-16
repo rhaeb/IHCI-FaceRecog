@@ -4,6 +4,8 @@ let faceDescriptor = null;
 let video = null;
 let canvas = null;
 let collectedFaceDescriptor = null;
+let faceMatcher;
+let isRecognizing = false;
 
 document.addEventListener('DOMContentLoaded', () => {
     const currentPage = window.location.pathname.split('/').pop();
@@ -19,12 +21,23 @@ function setupPageLogic(currentPage) {
             console.warn('Signup form not found.');
         }
     } else if (currentPage === 'login.html') {
-        const loginForm = document.getElementById('loginForm');
-        if (loginForm) {
-            loginForm.addEventListener('submit', handlePassLogin);
+        const faceIdButton = document.getElementById('face-id-link');
+        if (faceIdButton) {
+            faceIdButton.addEventListener('click', () => {
+                $('#faceLoginModal').modal('show');
+            });
         } else {
-            console.warn('Login form not found.');
+            console.warn('Face ID button not found.');
         }
+
+        // Modal event listeners
+        $('#faceLoginModal').on('shown.bs.modal', () => {
+            handleFaceRecognition();
+        });
+
+        $('#faceLoginModal').on('hidden.bs.modal', () => {
+            stopFaceRecognition();
+        });
     } else if (currentPage === 'edittest.html') {
         const editUserForm = document.getElementById('editUserForm');
         if (editUserForm) {
@@ -81,6 +94,122 @@ async function handlePassLogin(event) {
         console.error('Error logging in:', error);
         showMessage('Error logging in.');
     }
+}
+
+// Initialize the face-api.js library
+async function initializeFaceApi() {
+    await faceapi.nets.ssdMobilenetv1.loadFromUri('../models');
+    await faceapi.nets.faceLandmark68Net.loadFromUri('../models');
+    await faceapi.nets.faceRecognitionNet.loadFromUri('../models');
+    console.log('Face-api.js models loaded');
+}
+// Start the face recognition process
+async function handleFaceRecognition() {
+    if (isRecognizing) return;
+    isRecognizing = true;
+
+    // Initialize face-api models if not already loaded
+    if (!faceapi.nets.ssdMobilenetv1.isLoaded) {
+        await initializeFaceApi();
+    }
+
+    video = document.getElementById('videoInput');
+    try {
+        const stream = await navigator.mediaDevices.getUserMedia({ video: { width: 480, height: 360 } });
+        video.srcObject = stream;
+        video.play();
+    } catch (err) {
+        console.error("Error accessing webcam:", err);
+        alert('Unable to access the webcam. Please check your device settings.');
+        $('#faceLoginModal').modal('hide');
+        isRecognizing = false;
+        return;
+    }
+
+    video.addEventListener('playing', () => {
+        const statusMessage = document.getElementById('statusMessage');
+        statusMessage.textContent = 'Detecting your face...';
+
+        recognizeFace();
+    });
+}
+
+// Stop the face recognition process
+function stopFaceRecognition() {
+    if (!isRecognizing) return;
+    isRecognizing = false;
+
+    if (video && video.srcObject) {
+        video.srcObject.getTracks().forEach(track => track.stop());
+    }
+
+    if (canvas) {
+        canvas.remove();
+    }
+
+    const statusMessage = document.getElementById('statusMessage');
+    statusMessage.textContent = '';
+}
+
+async function recognizeFace() {
+    const statusMessage = document.getElementById('statusMessage');
+
+    // Continuously attempt to recognize the face until successful or modal is closed
+    const interval = setInterval(async () => {
+        if (!isRecognizing) {
+            clearInterval(interval);
+            return;
+        }
+
+        const results = await faceapi.detectAllFaces(video).withFaceLandmarks().withFaceDescriptors();
+
+        if (results.length > 0) {
+            const faceDescriptor = results[0].descriptor;
+            statusMessage.textContent = 'Face detected. Authenticating...';
+
+            // Convert Float32Array to standard array
+            const faceDescriptorArray = Array.from(faceDescriptor);
+
+            // Log the faceDescriptor for debugging
+            console.log('Captured Face Descriptor:', faceDescriptorArray);
+
+            // Send the face descriptor to the server for authentication
+            const response = await fetch('/api/users/login/face-recognition', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ faceDescriptor: faceDescriptorArray })
+            });
+
+            try {
+                const data = await response.json();
+                if (data.message === 'Login successful') {
+                    clearInterval(interval);
+                    stopFaceRecognition();
+                    $('#faceLoginModal').modal('hide');
+                    loginUser(data); // Pass user data to handle post-login actions
+                } else {
+                    statusMessage.textContent = data.message;
+                    console.warn(data.message);
+                }
+            } catch (error) {
+                console.error('Error parsing server response:', error);
+                statusMessage.textContent = 'An error occurred during authentication.';
+            }
+        } else {
+            statusMessage.textContent = 'No face detected. Please align your face within the frame.';
+        }
+    }, 3000); // Adjust the interval as needed (e.g., every 3 seconds)
+}
+
+// Handle successful login
+function loginUser(data) {
+    console.log('Logging user in...', data);
+    // Store the token (e.g., in localStorage) if needed
+    localStorage.setItem('token', data.token);
+    // Redirect to the homepage or desired page
+    window.location.href = '../pages/homepage.html';
 }
 
 async function handleEditUser(event) {
@@ -481,9 +610,9 @@ async function startFaceRecognition(mode, email) {
 async function loadFaceApiModels() {
     try {
         console.log('Loading face-api models...');
-        await faceapi.nets.tinyFaceDetector.loadFromUri('/models');
-        await faceapi.nets.faceLandmark68Net.loadFromUri('/models');
-        await faceapi.nets.faceRecognitionNet.loadFromUri('/models');
+        await faceapi.nets.tinyFaceDetector.loadFromUri('../models');
+        await faceapi.nets.faceLandmark68Net.loadFromUri('../models');
+        await faceapi.nets.faceRecognitionNet.loadFromUri('../models');
         console.log('Face-api models loaded successfully.');
     } catch (err) {
         console.error('Error loading models:', err);
@@ -661,3 +790,14 @@ function checkAuthentication() {
         }
     }
 }
+
+// Bind the face login event to a button (can be onClick or form submit)
+//document.getElementById('loginBtn').addEventListener('click', handleFaceLogin);
+// Optionally, handle modal close buttons to stop recognition
+document.getElementById('modalCloseBtn').addEventListener('click', () => {
+    stopFaceRecognition();
+});
+
+document.getElementById('modalCancelBtn').addEventListener('click', () => {
+    stopFaceRecognition();
+});

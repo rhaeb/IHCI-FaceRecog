@@ -8,6 +8,7 @@ class User {
     /**
      * Finds a user based on a condition.
      * @param {Object} condition - The condition to search for (e.g., { u_email: 'email@example.com' }).
+     * @param {Float32Array} faceData - The face descriptor data.
      * @returns {Object|null} - The user object if found, else null.
      */
     static async findOne(condition) {
@@ -27,6 +28,18 @@ class User {
             return result.rows[0]; // Returns the first matching row, or null if none found
         } catch (error) {
             console.error('Error finding user:', error);
+            throw error;
+        }
+    }
+
+    // Fetch all users from the database
+    static async find() {
+        const query = `SELECT * FROM users`;
+        try {
+            const result = await db.query(query);
+            return result.rows;
+        } catch (error) {
+            console.error('Error fetching users:', error);
             throw error;
         }
     }
@@ -126,6 +139,35 @@ class User {
     }
 
     /**
+     * Compares a provided face descriptor with the stored face descriptor.
+     * @param {Float32Array} providedFaceData - The face descriptor to compare with.
+     * @param {Array} storedFaceData - The stored face descriptor array.
+     * @returns {boolean} - True if faces match, else false.
+     */
+    static compareFaceDescriptors(providedFaceData, storedFaceData) {
+        if (!providedFaceData || !storedFaceData) {
+            console.log('Invalid face descriptors for comparison.');
+            return false;
+        }
+
+        if (providedFaceData.length !== storedFaceData.length) {
+            console.log('Face descriptors length mismatch.');
+            return false;
+        }
+
+        // Calculate Euclidean distance
+        let distance = 0;
+        for (let i = 0; i < providedFaceData.length; i++) {
+            distance += Math.pow(providedFaceData[i] - storedFaceData[i], 2);
+        }
+        distance = Math.sqrt(distance);
+
+        console.log(`Face descriptor distance: ${distance}`);
+
+        return distance < 0.6;  // Threshold can be adjusted based on requirements
+    }
+
+    /**
      * Finds a user by their ID.
      * @param {number} userId - The ID of the user.
      * @returns {Object|null} - The user object if found, else null.
@@ -214,5 +256,14 @@ class User {
         }
     }
 }
+
+// Helper function to calculate Euclidean distance between two face descriptors
+function calculateEuclideanDistance(descriptor1, descriptor2) {
+    const distance = descriptor1.reduce((acc, val, index) => {
+        return acc + Math.pow(val - descriptor2[index], 2);
+    }, 0);
+    return Math.sqrt(distance);
+}
+
 
 module.exports = User;
