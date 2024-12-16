@@ -1,5 +1,3 @@
-// face-recognition-popup.js
-
 let video = null;
 let canvas = null;
 let faceDescriptor = null;
@@ -39,9 +37,8 @@ async function startFaceRecognition() {
         faceapi.matchDimensions(canvas, displaySize);
 
         const detectFace = async () => {
-            const detections = await faceapi.detectAllFaces(video, new faceapi.TinyFaceDetectorOptions({
-                inputSize: 320,
-                scoreThreshold: 0.3
+            const detections = await faceapi.detectAllFaces(video, new faceapi.SsdMobilenetv1Options({
+                minConfidence: 0.3  // Set the minimum confidence level for face detection
             })).withFaceLandmarks().withFaceDescriptors();
 
             const resizedDetections = faceapi.resizeResults(detections, displaySize);
@@ -77,10 +74,8 @@ async function startFaceRecognition() {
 }
 
 async function loadFaceApiModels() {
-    const modelUrl = '/models';
-    await faceapi.nets.tinyFaceDetector.loadFromUri(modelUrl);
-    await faceapi.nets.faceLandmark68Net.loadFromUri(modelUrl);
-    await faceapi.nets.faceRecognitionNet.loadFromUri(modelUrl);
+    const modelUrl = '../models';  // Path to your models directory
+    await faceapi.nets.ssdMobilenetv1.loadFromUri(modelUrl); // Load the ssdMobilenetv1 model
+    await faceapi.nets.faceLandmark68Net.loadFromUri(modelUrl);  // Load the face landmarks model
+    await faceapi.nets.faceRecognitionNet.loadFromUri(modelUrl); // Load the face recognition model
 }
-
-// ... Rest of your existing code ...

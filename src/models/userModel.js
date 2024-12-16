@@ -147,24 +147,24 @@ class User {
     static compareFaceDescriptors(providedFaceData, storedFaceData) {
         if (!providedFaceData || !storedFaceData) {
             console.log('Invalid face descriptors for comparison.');
-            return false;
+            return { isMatch: false, distance: Infinity };
         }
-
+    
         if (providedFaceData.length !== storedFaceData.length) {
             console.log('Face descriptors length mismatch.');
-            return false;
+            return { isMatch: false, distance: Infinity };
         }
-
+    
         // Calculate Euclidean distance
         let distance = 0;
         for (let i = 0; i < providedFaceData.length; i++) {
             distance += Math.pow(providedFaceData[i] - storedFaceData[i], 2);
         }
         distance = Math.sqrt(distance);
-
+    
         console.log(`Face descriptor distance: ${distance}`);
-
-        return distance < 0.6;  // Threshold can be adjusted based on requirements
+    
+        return { isMatch: distance < 0.6, distance };
     }
 
     /**
@@ -259,9 +259,10 @@ class User {
 
 // Helper function to calculate Euclidean distance between two face descriptors
 function calculateEuclideanDistance(descriptor1, descriptor2) {
-    const distance = descriptor1.reduce((acc, val, index) => {
-        return acc + Math.pow(val - descriptor2[index], 2);
-    }, 0);
+    let distance = 0;
+    for (let i = 0; i < descriptor1.length; i++) {
+        distance += Math.pow(descriptor1[i] - descriptor2[i], 2);
+    }
     return Math.sqrt(distance);
 }
 

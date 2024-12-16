@@ -96,6 +96,18 @@ async function handlePassLogin(event) {
     }
 }
 
+async function loadFaceApiModels() {
+    try {
+        console.log('Loading face-api models...');
+        await faceapi.nets.tinyFaceDetector.loadFromUri('../models');
+        await faceapi.nets.faceLandmark68Net.loadFromUri('../models');
+        await faceapi.nets.faceRecognitionNet.loadFromUri('../models');
+        console.log('Face-api models loaded successfully.');
+    } catch (err) {
+        console.error('Error loading models:', err);
+        showMessage('Error loading face-api models. Ensure the models are located in the correct path.');
+    }
+}
 // Initialize the face-api.js library
 async function initializeFaceApi() {
     await faceapi.nets.ssdMobilenetv1.loadFromUri('../models');
@@ -604,19 +616,6 @@ async function startFaceRecognition(mode, email) {
     } catch (error) {
         console.error('Error accessing camera:', error);
         showMessage('Error accessing camera');
-    }
-}
-
-async function loadFaceApiModels() {
-    try {
-        console.log('Loading face-api models...');
-        await faceapi.nets.tinyFaceDetector.loadFromUri('../models');
-        await faceapi.nets.faceLandmark68Net.loadFromUri('../models');
-        await faceapi.nets.faceRecognitionNet.loadFromUri('../models');
-        console.log('Face-api models loaded successfully.');
-    } catch (err) {
-        console.error('Error loading models:', err);
-        showMessage('Error loading face-api models. Ensure the models are located in the correct path.');
     }
 }
 

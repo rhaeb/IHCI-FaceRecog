@@ -213,15 +213,19 @@ const loginUser = async (req, res) => {
         }
 
         let matchedUser = null;
+        let smallestDistance = Infinity;
+
+        // Convert providedFaceDescriptor to Float32Array once
+        const providedFaceData = new Float32Array(faceDescriptor);
 
         // Loop through all users and compare face data
         for (let user of users) {
             if (user.u_face_data) {
                 console.log(`Parsing face data for user ID: ${user.u_id}`);
-                console.log(`Stored u_face_data: ${user.u_face_data}`);
+                console.log(`Stored u_face_data: ${JSON.stringify(user.u_face_data)}`);
 
                 try {
-                    const storedFaceData = JSON.parse(user.u_face_data);  // Assuming stored face data is in JSON
+                    const storedFaceData = user.u_face_data;
 
                     // Validate storedFaceData structure
                     if (!Array.isArray(storedFaceData)) {
@@ -229,22 +233,24 @@ const loginUser = async (req, res) => {
                         continue; // Skip this user
                     }
 
-                    // Convert providedFaceDescriptor to Float32Array
-                    const providedFaceData = new Float32Array(faceDescriptor);
+                    const comparisonResult = User.compareFaceDescriptors(providedFaceData, storedFaceData);
+                    const { isMatch, distance } = comparisonResult;
+                    console.log(`User ID ${user.u_id} - Distance: ${distance} - Match: ${isMatch}`);
 
-                    const isMatch = User.compareFaceDescriptors(providedFaceData, storedFaceData);
                     if (isMatch) {
-                        matchedUser = user;
-                        break;  // Stop once a match is found
+                        if (distance < smallestDistance) {
+                            smallestDistance = distance;
+                            matchedUser = user;
+                        }
                     }
-                } catch (parseError) {
-                    console.error(`Error parsing u_face_data for user ID ${user.u_id}:`, parseError);
-                    continue;  // Skip this user and proceed to the next
+                } catch (error) {
+                    console.error(`Error processing u_face_data for user ID ${user.u_id}:`, error);
+                    continue; // Skip this user and proceed to the next
                 }
             }
         }
 
-        if (matchedUser) {
+        if (matchedUser && smallestDistance < 0.6) { // Ensure the smallest distance is below the threshold
             // Successful login, generate JWT token
             const token = jwt.sign({ userId: matchedUser.u_id }, process.env.JWT_SECRET, { expiresIn: '1h' });
 
