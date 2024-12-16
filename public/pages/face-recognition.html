@@ -9,52 +9,168 @@
     <script defer src="../scripts/face-api.min.js"></script>
     <script defer src="../scripts/face-recognition-popup.js"></script>
     <style>
+        /* Basic Reset */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
         body {
+            font-family: Arial, sans-serif;
+            background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
             display: flex;
-            flex-direction: column;
             align-items: center;
             justify-content: center;
             height: 100vh;
-            margin: 0;
-            font-family: Arial, sans-serif;
+            overflow: hidden; /* Prevent background scrolling */
         }
+
+        /* Modal Popup Container */
+        #popup-container {
+            background-color: #fff;
+            width: 90vw;
+            max-width: 1000px;
+            height: 90vh;
+            max-height: 800px;
+            border-radius: 10px;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.3);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            position: relative;
+        }
+
+        /* Close Button */
+        #close-button {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: #555;
+        }
+
+        #close-button:hover {
+            color: #000;
+        }
+
+        /* Header */
+        h2 {
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        /* Video and Canvas Container */
         #video-container {
             position: relative;
-            width: 640px;
-            height: 480px;
+            width: 100%;
+            flex: 1;
+            max-height: 70%;
+            background-color: #000;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
+
         video, canvas {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 640px;
-            height: 480px;
-            border: 1px solid #ccc;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
         }
+
+        /* Message */
         #message {
-            margin-top: 10px;
+            margin-top: 20px;
             font-weight: bold;
             text-align: center;
+            color: #333;
+            min-height: 24px; /* To maintain space even when empty */
         }
+
+        /* Capture Button */
         #capture-button {
-            margin-top: 10px;
-            padding: 10px 20px;
-            font-size: 16px;
+            margin-top: 20px;
+            padding: 12px 24px;
+            font-size: 18px;
             cursor: pointer;
+            background-color: #28a745;
+            color: #fff;
+            border: none;
+            border-radius: 6px;
+            transition: background-color 0.3s ease;
         }
+
+        #capture-button:hover:not(:disabled) {
+            background-color: #218838;
+        }
+
         #capture-button:disabled {
             background-color: #ccc;
             cursor: not-allowed;
         }
+
+        /* Responsive Adjustments */
+        @media (max-width: 768px) {
+            #popup-container {
+                width: 95vw;
+                height: 85vh;
+                padding: 15px;
+            }
+
+            #capture-button {
+                width: 100%;
+                font-size: 16px;
+                padding: 10px 0;
+            }
+
+            #close-button {
+                font-size: 20px;
+                top: 10px;
+                right: 15px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            #popup-container {
+                width: 100vw;
+                height: 100vh;
+                border-radius: 0;
+                padding: 10px;
+            }
+
+            h2 {
+                font-size: 20px;
+                margin-bottom: 15px;
+            }
+
+            #capture-button {
+                font-size: 14px;
+                padding: 8px 16px;
+            }
+
+            #message {
+                margin-top: 15px;
+                font-size: 14px;
+            }
+        }
     </style>
 </head>
 <body>
-    <h2>Face Recognition</h2>
-    <div id="video-container">
-        <video id="video" width="640" height="480" autoplay muted></video>
-        <canvas id="overlay" width="640" height="480"></canvas>
+    <div id="popup-container">
+        <h2>Face Recognition</h2>
+        <div id="video-container">
+            <video id="video" autoplay muted></video>
+            <canvas id="overlay"></canvas>
+        </div>
+        <div id="message">Initializing...</div>
+        <button id="capture-button" disabled>Capture Face</button>
     </div>
-    <div id="message">Initializing...</div>
-    <button id="capture-button" disabled>Capture Face</button>
 </body>
 </html>
