@@ -220,8 +220,9 @@ function loginUser(data) {
     console.log('Logging user in...', data);
     // Store the token (e.g., in localStorage) if needed
     localStorage.setItem('token', data.token);
+    localStorage.setItem('user', JSON.stringify(data.user));
     // Redirect to the homepage or desired page
-    window.location.href = '../pages/homepage.html';
+    window.location.href = '../pages/welcomepage.html';
 }
 
 // // function fetchAndPopulateUserDataForEdit() {

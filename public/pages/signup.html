@@ -7,6 +7,7 @@
     <!-- Bootstrap CSS -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="/node_modules/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="icon" href="../images/slogo.png" type="image/x-icon">
     
     <!-- JS Libraries -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
@@ -14,7 +15,7 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script defer src="../scripts/face-api.min.js"></script>
     <script defer src="../scripts/script.js"></script>
-    <link rel="stylesheet" href="/css/signup.css">
+    <link rel="stylesheet" href="../css/signup.css">
 </head>
 <body>
     <div class="form-container">
@@ -72,7 +73,13 @@
                 </div>
                 <div>
                     <label for="civilStatus">Civil Status</label>
-                    <input type="text" id="civilStatus">
+                    <select id="civilStatus">
+                        <option value="single">Single</option>
+                        <option value="married">Married</option>
+                        <option value="divorced">Divorced</option>
+                        <option value="widowed">Widowed</option>
+                        <option value="separated">Separated</option>
+                    </select>
                 </div>
             </div>
 
