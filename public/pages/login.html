@@ -51,9 +51,10 @@
     <div class="modal fade" id="faceLoginModal" tabindex="-1" aria-labelledby="faceLoginModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-lg">
             <div class="modal-content">
-                <div class="modal-header bg-primary text-white">
+                <!-- Updated Modal Header -->
+                <div class="modal-header modal-header-custom">
                     <h5 class="modal-title" id="faceLoginModalLabel">Face Recognition Login</h5>
-                    <!-- Close Button
+                    <!-- Optional Close Button (Uncomment if needed)
                     <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close" id="modalCloseBtn">
                         <span aria-hidden="true">&times;</span>
                     </button> -->
@@ -67,14 +68,13 @@
                         <span class="sr-only">Loading...</span>
                     </div>
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal" id="modalCancelBtn">Cancel</button>
-                    <button type="button" class="btn btn-primary" id="captureBtn">Capture</button>
+                <div class="modal-footer justify-content-center">
+                    <button type="button" class="btn btn-secondary mr-2" data-dismiss="modal" id="modalCancelBtn">Cancel</button>
+                    <button type="button" class="btn btn-custom-primary" id="captureBtn">Capture</button>
                 </div>
             </div>
         </div>
     </div>
-
 
     <!-- Footer -->
     <footer class="text-center mt-5">&copy; 2024 All Rights Reserved</footer>

@@ -108,8 +108,41 @@ button {
 button:hover {
     background-color: #003d80;
 }
+/* Custom Modal Header */
+.modal-header-custom {
+    background-color: #143563;
+    color: white;
+}
 
+.modal{
+    border-radius: 40px;
+}
 
+/* Optional: Ensure the close button (if used) has white color */
+.modal-header-custom .close {
+    color: white;
+    opacity: 1;
+}
+
+/* Custom Primary Button */
+.btn-custom-primary {
+    background-color: #143563;
+    border-color: #143563;
+    color: white; /* Ensures text is visible */
+}
+
+.btn-custom-primary:hover {
+    background-color: #0e2a4f; /* Slightly darker shade on hover */
+    border-color: #0e2a4f;
+    color: white;
+}
+
+/* Ensure Buttons are Aligned on the Same Row */
+.modal-footer {
+    display: flex;
+    justify-content: center; /* Centers the buttons horizontally */
+    align-items: center; /* Centers the buttons vertically */
+}
 /* Face ID Container */
 .face-id-container {
     display: flex;
@@ -179,7 +212,6 @@ footer {
     justify-content: space-between;
     align-items: center;
     padding: 15px 20px;
-    background-color: #007bff; /* Background color of the modal header */
     color: white;
 }
 
