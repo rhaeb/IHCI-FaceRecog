@@ -128,7 +128,13 @@
                     <div class="column">
                         <div class="input-box"> 
                             <label for="cstatus">Civil Status</label> 
-                            <input type="text" id="cstatus" value="" readonly>
+                            <select id="cstatus" disabled>
+                                <option value="single">Single</option>
+                                <option value="married">Married</option>
+                                <option value="divorced">Divorced</option>
+                                <option value="widowed">Widowed</option>
+                                <option value="separated">Separated</option>
+                            </select>
                         </div>
                         <div class="input-box"> 
                             <label for="wstatus">Work Status</label> 
@@ -210,7 +216,13 @@
                 <div class="input-row">
                     <div class="input-box"> 
                         <label for="edit-cstatus">Civil Status</label> 
-                        <input type="text" id="edit-cstatus" required>
+                        <select id="edit-cstatus">
+                            <option value="single">Single</option>
+                            <option value="married">Married</option>
+                            <option value="divorced">Divorced</option>
+                            <option value="widowed">Widowed</option>
+                            <option value="separated">Separated</option>
+                        </select>
                     </div>
                     <div class="input-box"> 
                         <label for="edit-wstatus">Work Status</label> 
