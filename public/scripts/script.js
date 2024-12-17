@@ -502,9 +502,23 @@ async function handleSignup2(event) {
     const gender = document.getElementById('gender').value;
     const civilStatus = document.getElementById('civilStatus').value.trim();
 
+    // Regex for validation
+    const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/; // Basic email regex
+    const phoneRegex = /^(09|\+639)\d{9}$/; // Valid Philippine phone number
+
     // Basic validation  || !password 
     if (!email || !firstName || !lastName || !studentId || !address || !phone || !birthDate || !gender || !civilStatus) {
         showMessage('All fields are required.');
+        return;
+    }
+
+    if (!emailRegex.test(email)) {
+        showMessage('Please enter a valid email address.');
+        return;
+    }
+
+    if (!phoneRegex.test(phone)) {
+        showMessage('Please enter a valid Philippine contact number (e.g., 09123456789 or +639123456789).');
         return;
     }
 
@@ -850,6 +864,16 @@ function showMessage(message, type = 'error') {
     if (messageDiv) {
         messageDiv.textContent = message;
         messageDiv.style.color = type === 'error' ? 'red' : 'green';
+        messageDiv.style.display = 'block';
+        setTimeout(hideMessage, 10000);
+    }
+}
+
+function hideMessage() {
+    const messageDiv = document.getElementById('message');
+    if (messageDiv) {
+        messageDiv.style.display = 'none'; // Hide the message container
+        messageDiv.textContent = ''; // Clear the message text
     }
 }
 
@@ -902,4 +926,5 @@ document.getElementById('modalCloseBtn').addEventListener('click', () => {
 
 document.getElementById('modalCancelBtn').addEventListener('click', () => {
     stopFaceRecognition();
+    $('#faceLoginModal').modal('hide'); // Instantly hides the modal
 });

@@ -19,101 +19,6 @@
     <script defer src="../scripts/face-api.min.js"></script>
     <script defer src="../scripts/script.js"></script>
     
-    <style>
-        .camera-container {
-            display: flex;
-            justify-content: center;
-            margin: 20px 0;
-        }
-        
-        #videoInput {
-            border: 2px solid #ddd;
-            border-radius: 10px;
-            width: 100%;
-            max-width: 480px;
-            height: auto;
-        }
-        /* Close Button Styling */
-        .modal-header .close {
-            font-size: 1.5rem; /* Reduced from 1.5rem */
-            padding: 0.5rem 0.7rem; /* Adjusted padding */
-            margin: -10px -10px -10px auto; /* Fine-tuned margins */
-            opacity: 0.8;
-            transition: opacity 0.3s, transform 0.2s;
-        }
-
-        .modal-header .close:hover,
-        .modal-header .close:focus {
-            opacity: 1;
-            cursor: pointer;
-            transform: scale(1.1); /* Slightly smaller scale on hover */
-        }
-
-        /* Ensure the close button is properly aligned */
-        .modal-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        /* Optional: Add a custom hover effect */
-        .modal-header .close span {
-            transition: transform 0.2s;
-        }
-
-        .modal-header .close:hover span {
-            transform: scale(1.2);
-        }
-
-        /* Modal Body Styling */
-        .modal-body {
-            padding: 30px 20px;
-        }
-
-        /* Video Styling */
-        #videoInput {
-            width: 100%;
-            max-width: 500px;
-            height: auto;
-            border: 4px solid #007bff;
-            border-radius: 15px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-        }
-
-        /* Status Message Styling */
-        #statusMessage {
-            font-size: 1.1rem;
-            color: #555;
-        }
-
-        /* Loading Spinner Styling */
-        #loadingSpinner {
-            width: 3rem;
-            height: 3rem;
-        }
-
-        /* Modal Footer Styling */
-        .modal-footer {
-            border-top: none;
-            padding: 20px;
-        }
-
-        /* Capture Button Styling */
-        #captureBtn {
-            display: none; /* Initially hidden, can be shown based on your script logic */
-        }
-
-        /* Responsive Adjustments */
-        @media (max-width: 576px) {
-            .modal-dialog {
-                margin: 10px;
-            }
-
-            #videoInput {
-                max-width: 100%;
-            }
-        }
-    </style>
 </head>
 <body>
 
@@ -148,9 +53,10 @@
             <div class="modal-content">
                 <div class="modal-header bg-primary text-white">
                     <h5 class="modal-title" id="faceLoginModalLabel">Face Recognition Login</h5>
+                    <!-- Close Button
                     <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close" id="modalCloseBtn">
                         <span aria-hidden="true">&times;</span>
-                    </button>
+                    </button> -->
                 </div>
                 <div class="modal-body text-center">
                     <div class="camera-container">

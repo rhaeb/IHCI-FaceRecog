@@ -26,12 +26,6 @@ document.addEventListener('DOMContentLoaded', () => {
             messageDiv.textContent = 'No face detected. Please try again.';
         }
     });
-
-    // Handle Close Button Click
-    document.getElementById('close-button').addEventListener('click', () => {
-        stopCamera();
-        window.close();
-    });
 });
 
 async function startFaceRecognition() {
@@ -44,6 +38,12 @@ async function startFaceRecognition() {
         stream = await navigator.mediaDevices.getUserMedia({ video: { width: 640, height: 480 } });
         video.srcObject = stream;
         await video.play();
+
+        // Update canvas size to match video dimensions
+        video.onloadeddata = () => {
+            canvas.width = video.videoWidth;
+            canvas.height = video.videoHeight;
+        };
 
         messageDiv.textContent = 'Looking for your face...';
 
@@ -62,7 +62,7 @@ async function detectFace(displaySize) {
     const detectLoop = async () => {
         try {
             const detections = await faceapi
-                .detectAllFaces(video, new faceapi.SsdMobilenetv1Options({ minConfidence: 0.5 }))
+                .detectAllFaces(video, new faceapi.SsdMobilenetv1Options({ minConfidence: 0.75 }))
                 .withFaceLandmarks()
                 .withFaceDescriptors();
 

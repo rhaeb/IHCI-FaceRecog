@@ -143,6 +143,12 @@ input, select, button {
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
     transition: box-shadow 0.3s ease;
 }
+select {
+    line-height: normal; /* Ensures the text is aligned properly */
+    height: 36px; /* Adjust height to match input fields */
+    padding: 6px 10px; /* Reduce padding for better fit */
+    box-sizing: border-box; /* Ensures padding is accounted for in width/height */
+}
 input#birthdate { 
     font-size: 14px; /* Adjust font size */
 }

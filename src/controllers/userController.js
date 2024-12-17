@@ -250,7 +250,7 @@ const loginUser = async (req, res) => {
             }
         }
 
-        if (matchedUser && smallestDistance < 0.6) { // Ensure the smallest distance is below the threshold
+        if (matchedUser && smallestDistance < 0.5) { // Ensure the smallest distance is below the threshold
             // Successful login, generate JWT token
             const token = jwt.sign({ userId: matchedUser.u_id }, process.env.JWT_SECRET, { expiresIn: '1h' });
 

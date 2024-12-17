@@ -166,3 +166,64 @@ footer {
     padding: 10px;            
     width: auto;              
 }
+
+/* Modal specific styling - avoid interference with global styles */
+.modal .modal-dialog {
+    max-width: 600px; /* Set a max width for the modal */
+    width: 100%; /* Allow it to scale on smaller screens */
+}
+
+/* Modal Header */
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 20px;
+    background-color: #007bff; /* Background color of the modal header */
+    color: white;
+}
+
+/* Close button styling in the modal */
+.modal-header .close {
+    font-size: 2rem; /* Larger close button */
+    color: white;
+    border: none;
+    background: none;
+    opacity: 0.8;
+    transition: opacity 0.3s, transform 0.2s;
+}
+
+.modal-header .close:hover,
+.modal-header .close:focus {
+    opacity: 1; /* Make close button fully visible */
+    cursor: pointer;
+    transform: scale(1.2); /* Slight scaling effect on hover */
+}
+
+/* Modal Body */
+.modal-body {
+    padding: 20px 30px;
+    text-align: center; /* Center content */
+}
+
+/* Modal Footer */
+.modal-footer {
+    border-top: none;
+    padding: 10px;
+    justify-content: space-between;
+    display: flex;
+    align-items: center;
+}
+
+.modal-footer button {
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+/* Loading spinner inside the modal */
+#loadingSpinner {
+    width: 3rem;
+    height: 3rem;
+    margin-top: 20px;
+    display: none; /* Initially hidden */
+}
