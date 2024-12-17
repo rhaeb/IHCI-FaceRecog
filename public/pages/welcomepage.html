@@ -16,6 +16,7 @@
     
             // Function to fetch user details from the server
             function fetchUserDetails(userId, token) {
+                console.log("fetching user");
                 fetch(`/api/users/${userId}`, {
                     method: 'GET',
                     headers: {
@@ -42,8 +43,10 @@
             // Function to update the welcome page with user details
             function updateWelcomePage(user) {
                 // Update the user's full name
-                const userNameElement = document.getElementById('user-name');
-                userNameElement.textContent = `${user.firstName} ${user.lastName}`;
+                const userNameElement1 = document.getElementById('user-name1');
+                userNameElement1.textContent = `${user.firstName} ${user.lastName}`;
+                const userNameElement2 = document.getElementById('user-name2');
+                userNameElement2.textContent = `${user.firstName} ${user.lastName}`;
     
                 // Generate initials
                 const initials = generateInitials(user.firstName, user.lastName);
@@ -58,8 +61,9 @@
                     headerProfilePicElement.innerHTML = `<img src="${user.profileImage}" alt="Profile Picture">`;
                     mainProfilePicElement.innerHTML = `<img src="${user.profileImage}" alt="Profile Picture">`;
                 } else {
+                    const storedUser = getStoredUser();
                     // If no profile image, apply stored random background color
-                    const backgroundColor = user.backgroundColor || getRandomColor();
+                    const backgroundColor = storedUser.backgroundColor || getRandomColor();
                     // Apply background color to profile pic elements
                     headerProfilePicElement.style.backgroundColor = backgroundColor;
                     mainProfilePicElement.style.backgroundColor = backgroundColor;
@@ -84,44 +88,104 @@
                 }
                 return color;
             }
-    
-            // Main execution
-            const token = localStorage.getItem('token');
-            if (!token) {
-                // Redirect to login page if no token is found
-                window.location.href = 'login.html';
-            } else {
-                // Optionally, verify the token's validity with the server
-                fetch('/api/users/verify-token', {
+
+            document.addEventListener('DOMContentLoaded', (event) => {
+                const profileImg = document.getElementById('header-profile-pic');
+                const dropdownMenu = document.getElementById('dropdown-menu');
+            
+                if (profileImg) {
+                    profileImg.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        dropdownMenu.style.display = dropdownMenu.style.display === 'block' ? 'none' : 'block';
+                    });
+                } else {
+                    console.error("Profile image not found.");
+                }
+            
+                if (dropdownMenu) {
+                    window.addEventListener('click', (e) => {
+                        if (!e.target.closest('.user-profile')) {
+                            dropdownMenu.style.display = 'none';
+                        }
+                    });
+                } else {
+                    console.error("Dropdown menu not found.");
+                }
+
+                const logoutLink = document.getElementById('logout');
+                logoutLink.addEventListener('click', () => {
+                    logout(); 
+                });
+                
+                // Main execution
+                const token = localStorage.getItem('token');
+                if (!token) {
+                    // Redirect to login page if no token is found
+                    window.location.href = 'login.html';
+                } else {
+                    // Optionally, verify the token's validity with the server
+                    fetch('/api/users/verify-token', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': `Bearer ${token}`
+                        }
+                    })
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Token is invalid or expired');
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        console.log(data.message); // 'Token is valid'
+                        // Proceed to fetch user details
+                        const storedUser = getStoredUser();
+                        if (storedUser && storedUser.id) {
+                            fetchUserDetails(storedUser.id, token);
+                        } else {
+                            // If user data is not in localStorage, redirect to login
+                            window.location.href = 'login.html';
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Token verification failed:', error);
+                        // Redirect to login page on error
+                        window.location.href = 'login.html';
+                    });
+                }
+            });
+
+            function logout() {
+                // Remove JWT token and user data from localStorage
+                localStorage.removeItem('token');
+                localStorage.removeItem('user');
+                
+                // Optionally, inform the server about the logout
+                // Uncomment the following lines if you implement a logout endpoint
+                /*
+                fetch('/api/users/logout', {
                     method: 'POST',
                     headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${token}`
+                        'Authorization': `Bearer ${getAuthToken()}` // Modify as per your token structure
                     }
                 })
                 .then(response => {
-                    if (!response.ok) {
-                        throw new Error('Token is invalid or expired');
-                    }
-                    return response.json();
-                })
-                .then(data => {
-                    console.log(data.message); // 'Token is valid'
-                    // Proceed to fetch user details
-                    const storedUser = getStoredUser();
-                    if (storedUser && storedUser.id) {
-                        fetchUserDetails(storedUser.id, token);
+                    if (response.ok) {
+                        console.log('Logged out successfully on the server.');
                     } else {
-                        // If user data is not in localStorage, redirect to login
-                        window.location.href = 'login.html';
+                        console.warn('Server logout failed.');
                     }
                 })
                 .catch(error => {
-                    console.error('Token verification failed:', error);
-                    // Redirect to login page on error
-                    window.location.href = 'login.html';
+                    console.error('Error during server logout:', error);
                 });
+                */
+
+                // Redirect to the login page or homepage
+                window.location.href = '../pages/login.html';
             }
+    
         })();
     </script>
     
@@ -163,8 +227,11 @@
             position: relative;
             width: 30px;
             height: 30px;
-            background-color: #007bff; /* Default random background color */
+            background-color: #ffffff; /* Default random background color */
+            margin-right: 20px;
+            cursor: pointer;
         }
+
         /* Main profile picture */
         #main-profile-pic {
             position: absolute;
@@ -174,10 +241,46 @@
             color: white;
             width: 150px;
             height: 150px;
-            background-color: #007bff; /* Default random background color */
+            background-color: #ffffff; /* Default random background color */
             margin-top: 20px;
         }
-             
+        
+        .user-profile {
+            position: relative;
+            display: inline-block;
+        }
+
+        #dropdown-menu {
+            display: none;
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background-color: #f9f9f9;
+            min-width: 160px;
+            box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+            z-index: 1;
+            border-radius: 10%;
+        }
+
+        #dropdown-menu a{
+            color: black;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+        }
+
+        #dropdown-menu p {
+            color: #1160FF;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+            font-weight: bold;
+        }
+
+        #dropdown-menu a:hover {
+            background-color: #f1f1f1;
+            border-radius: 10%;
+        }
     </style>
 </head>
 <body>
@@ -190,6 +293,12 @@
             <div class="user-profile">
                 <!-- Profile picture for header -->
                 <div id="header-profile-pic" class="profile-pic"></div>
+                <!-- Dropdown menu -->
+                <div id="dropdown-menu" class="dropdown-content">
+                    <!-- User's name will appear here -->
+                    <p id="user-name1" class="dropdown-item"></p><hr>
+                    <a href="#" id="logout" class="dropdown-item">Logout</a>
+                </div>
             </div>
         </header>
         <main class="card">
@@ -202,7 +311,7 @@
                 </div>
             </div>
             <div class="card-content">
-                <h2 id="user-name">User Name</h2>
+                <h2 id="user-name2">User Name</h2>
                 <p>You’re logged in! Please click continue to explore your profile</p>
                 <button onclick="window.location.href='homepage.html'">Continue</button>
             </div>
