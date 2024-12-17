@@ -224,66 +224,165 @@ function loginUser(data) {
     window.location.href = '../pages/homepage.html';
 }
 
-async function handleEditUser(event) {
-    event.preventDefault();
-    showMessage('Updating user information...', 'success');
+// // function fetchAndPopulateUserDataForEdit() {
+// //     const userId = getUserIdFromToken();
+// //     const token = getAuthToken();
 
-    const userId = getUserIdFromToken();
-    const token = getAuthToken();
+// //     fetch(`/api/users/details/${userId}`, {
+// //         headers: { 'Authorization': `Bearer ${token}` }
+// //     })
+// //     .then(response => response.json())
+// //     .then(data => {
+// //         document.getElementById('edit-first-name').value = data.firstName || '';
+// //         document.getElementById('edit-last-name').value = data.lastName || '';
+// //         document.getElementById('edit-phone').value = data.phone || '';
+// //         document.getElementById('edit-address').value = data.address || '';
+// //     })
+// //     .catch(err => console.error('Failed to fetch user data for edit:', err));
+// // }
 
-    if (!userId || !token) {
-        showMessage('User not authenticated.');
-        return;
-    }
+// async function fetchAndPopulateUserDataForEdit() {
+//     const userId = getUserIdFromToken();
+//     const token = getAuthToken();
 
-    const firstName = document.getElementById('firstName').value.trim();
-    const lastName = document.getElementById('lastName').value.trim();
-    const address = document.getElementById('address').value.trim();
-    const phone = document.getElementById('phone').value.trim();
-    const birthDate = document.getElementById('birthDate').value;
-    const gender = document.getElementById('gender').value;
-    const civilStatus = document.getElementById('civilStatus').value.trim();
+//     if (!userId || !token) {
+//         showMessage('User not authenticated.');
+//         return;
+//     }
 
-    // Basic validation
-    if (!firstName || !lastName || !address || !phone || !birthDate || !gender || !civilStatus) {
-        showMessage('All fields are required.');
-        return;
-    }
+//     try {
+//         const response = await fetch(`/api/users/details/${userId}`, {
+//             method: 'GET',
+//             headers: { 
+//                 'Content-Type': 'application/json',
+//                 'Authorization': `Bearer ${token}`
+//             }
+//         });
 
-    try {
-        const response = await fetch(`/api/users/${userId}`, {
-            method: 'PUT',
-            headers: { 
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`
-            },
-            body: JSON.stringify({
-                u_fname: firstName,
-                u_lname: lastName,
-                u_address: address,
-                u_phone: phone,
-                u_bdate: birthDate,
-                u_gender: gender,
-                u_civstatus: civilStatus
-            })
-        });
+//         const data = await response.json();
+//         if (response.ok) {
+//             // Populate the form with existing user data
+//             document.getElementById('first-name').value = data.firstName || '';
+//             document.getElementById('last-name').value = data.lastName || '';
+//             // document.getElementById('gender').value = data.gender || '';
+//             // document.getElementById('bdate').value = data.birthDate ? data.birthDate.split('T')[0] : '';
+//             // document.getElementById('age').value = data.age || '';
+//             document.getElementById('phone').value = data.phone || ''; 
+//             // document.getElementById('cstatus').value = data.civilStatus || '';
+//             // document.getElementById('wstatus').value = data.workStatus || 'N/A';
+//             // document.getElementById('guardian').value = data.guardian || 'N/A';
+//             // document.getElementById('id-number').value = data.studentId || '';
+//             // document.getElementById('email').value = data.email || '';
+//             document.getElementById('address').value = data.address || '';
 
-        const data = await response.json();
-        if (response.ok) {
-            showMessage(data.message, 'success');
-            // Optionally, update stored user info
-            const user = JSON.parse(localStorage.getItem('user'));
-            user.firstName = firstName;
-            user.lastName = lastName;
-            localStorage.setItem('user', JSON.stringify(user));
-        } else {
-            showMessage(data.message || 'Error updating user information.');
-        }
-    } catch (error) {
-        console.error('Error updating user:', error);
-        showMessage('Error updating user information.');
-    }
-}
+//             showMessage('User data loaded.', 'success');
+//         } else {
+//             showMessage(data.message || 'Error fetching user data.');
+//         }
+
+//     } catch (error) {
+//         console.error('Error fetching user data:', error);
+//         showMessage('Error fetching user data.');
+//     }
+// }
+
+// editProfileForm.addEventListener('submit', async (event) => {
+//     event.preventDefault();
+
+//     const updatedData = {
+//         firstName: document.getElementById('edit-first-name').value.trim(),
+//         lastName: document.getElementById('edit-last-name').value.trim(),
+//         phone: document.getElementById('edit-phone').value.trim(),
+//         address: document.getElementById('edit-address').value.trim(),
+//     };
+
+//     try {
+//         const userId = getUserIdFromToken();
+//         const token = getAuthToken();
+
+//         const response = await fetch(`/api/users/${userId}`, {
+//             method: 'PUT',
+//             headers: { 
+//                 'Content-Type': 'application/json',
+//                 'Authorization': `Bearer ${token}`
+//             },
+//             body: JSON.stringify(updatedData)
+//         });
+
+//         const result = await response.json();
+//         if (response.ok) {
+//             alert('Profile updated successfully!');
+//             editPopup.style.display = 'none';
+//             fetchAndPopulateUserData(); // Refresh main profile info
+//         } else {
+//             alert(result.message || 'Failed to update profile.');
+//         }
+//     } catch (error) {
+//         console.error('Error updating profile:', error);
+//         alert('An error occurred while updating.');
+//     }
+// });
+
+// async function handleEditUser(event) {
+//     event.preventDefault();
+//     showMessage('Updating user information...', 'success');
+
+//     const userId = getUserIdFromToken();
+//     const token = getAuthToken();
+
+//     if (!userId || !token) {
+//         showMessage('User not authenticated.');
+//         return;
+//     }
+
+//     const firstName = document.getElementById('firstName').value.trim();
+//     const lastName = document.getElementById('lastName').value.trim();
+//     const address = document.getElementById('address').value.trim();
+//     const phone = document.getElementById('phone').value.trim();
+//     const birthDate = document.getElementById('birthDate').value;
+//     const gender = document.getElementById('gender').value;
+//     const civilStatus = document.getElementById('civilStatus').value.trim();
+
+//     // Basic validation
+//     if (!firstName || !lastName || !address || !phone || !birthDate || !gender || !civilStatus) {
+//         showMessage('All fields are required.');
+//         return;
+//     }
+
+//     try {
+//         const response = await fetch(`/api/users/${userId}`, {
+//             method: 'PUT',
+//             headers: { 
+//                 'Content-Type': 'application/json',
+//                 'Authorization': `Bearer ${token}`
+//             },
+//             body: JSON.stringify({
+//                 u_fname: firstName,
+//                 u_lname: lastName,
+//                 u_address: address,
+//                 u_phone: phone,
+//                 u_bdate: birthDate,
+//                 u_gender: gender,
+//                 u_civstatus: civilStatus
+//             })
+//         });
+
+//         const data = await response.json();
+//         if (response.ok) {
+//             showMessage(data.message, 'success');
+//             // Optionally, update stored user info
+//             const user = JSON.parse(localStorage.getItem('user'));
+//             user.firstName = firstName;
+//             user.lastName = lastName;
+//             localStorage.setItem('user', JSON.stringify(user));
+//         } else {
+//             showMessage(data.message || 'Error updating user information.');
+//         }
+//     } catch (error) {
+//         console.error('Error updating user:', error);
+//         showMessage('Error updating user information.');
+//     }
+// }
 
 async function fetchAndPopulateUserData() {
     const userId = getUserIdFromToken();
@@ -318,6 +417,9 @@ async function fetchAndPopulateUserData() {
             document.getElementById('id-number').value = data.studentId || '';
             document.getElementById('email').value = data.email || '';
             document.getElementById('address').value = data.address || '';
+
+            document.getElementById('profile-name').textContent = `${data.firstName} ${data.lastName}`;
+            document.getElementById('profile-email').textContent = data.email;
             showMessage('User data loaded.', 'success');
         } else {
             showMessage(data.message || 'Error fetching user data.');
@@ -712,35 +814,35 @@ async function displayUserDetails() {
     }
 }
 
-function logout() {
-    // Remove JWT token and user data from localStorage
-    localStorage.removeItem('token');
-    localStorage.removeItem('user');
+// function logout() {
+//     // Remove JWT token and user data from localStorage
+//     localStorage.removeItem('token');
+//     localStorage.removeItem('user');
     
-    // Optionally, inform the server about the logout
-    // Uncomment the following lines if you implement a logout endpoint
-    /*
-    fetch('/api/users/logout', {
-        method: 'POST',
-        headers: {
-            'Authorization': `Bearer ${getAuthToken()}`
-        }
-    })
-    .then(response => {
-        if (response.ok) {
-            console.log('Logged out successfully on the server.');
-        } else {
-            console.warn('Server logout failed.');
-        }
-    })
-    .catch(error => {
-        console.error('Error during server logout:', error);
-    });
-    */
+//     // Optionally, inform the server about the logout
+//     // Uncomment the following lines if you implement a logout endpoint
+//     /*
+//     fetch('/api/users/logout', {
+//         method: 'POST',
+//         headers: {
+//             'Authorization': `Bearer ${getAuthToken()}`
+//         }
+//     })
+//     .then(response => {
+//         if (response.ok) {
+//             console.log('Logged out successfully on the server.');
+//         } else {
+//             console.warn('Server logout failed.');
+//         }
+//     })
+//     .catch(error => {
+//         console.error('Error during server logout:', error);
+//     });
+//     */
 
-    // Redirect to the login page or homepage
-    window.location.href = '../pages/login.html'; // Update the path as needed
-}
+//     // Redirect to the login page or homepage
+//     window.location.href = '../pages/login.html'; // Update the path as needed
+// }
 
 function showMessage(message, type = 'error') {
     const messageDiv = document.getElementById('message');

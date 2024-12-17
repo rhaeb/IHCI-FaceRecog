@@ -1,48 +1,73 @@
 let video = null;
 let canvas = null;
 let faceDescriptor = null;
-let captureButton = null; // Declare captureButton in the global scope
-const messageDiv = document.getElementById('message'); // Move messageDiv to global scope
+let captureButton = null;
+let messageDiv = null;
+let stream = null; // Camera stream for stopping later
 
 document.addEventListener('DOMContentLoaded', () => {
     video = document.getElementById('video');
     canvas = document.getElementById('overlay');
-    captureButton = document.getElementById('capture-button'); // Initialize captureButton
-    captureButton.disabled = true; // Ensure it's disabled initially
+    captureButton = document.getElementById('capture-button');
+    messageDiv = document.getElementById('message');
 
+    // Initialize Face Recognition
     startFaceRecognition();
 
+    // Handle Capture Button Click
     captureButton.addEventListener('click', () => {
         if (faceDescriptor) {
-            // Send the face descriptor back to the main window
+            console.log('Captured Face Descriptor:', faceDescriptor);
             const descriptorArray = Array.from(faceDescriptor).map(num => parseFloat(num.toFixed(6)));
-            window.opener.receiveFaceDescriptor(descriptorArray);
+            window.opener.receiveFaceDescriptor(descriptorArray); // Send to main window
+            stopCamera();
             window.close();
         } else {
             messageDiv.textContent = 'No face detected. Please try again.';
         }
     });
+
+    // Handle Close Button Click
+    document.getElementById('close-button').addEventListener('click', () => {
+        stopCamera();
+        window.close();
+    });
 });
 
 async function startFaceRecognition() {
     try {
+        console.log('Loading models...');
         await loadFaceApiModels();
-        const stream = await navigator.mediaDevices.getUserMedia({ video: { width: 640, height: 480 } });
+        console.log('Models loaded successfully.');
+
+        console.log('Accessing camera...');
+        stream = await navigator.mediaDevices.getUserMedia({ video: { width: 640, height: 480 } });
         video.srcObject = stream;
         await video.play();
 
         messageDiv.textContent = 'Looking for your face...';
 
-        const displaySize = { width: video.width, height: video.height };
+        const displaySize = { width: video.clientWidth, height: video.clientHeight };
         faceapi.matchDimensions(canvas, displaySize);
 
-        const detectFace = async () => {
-            const detections = await faceapi.detectAllFaces(video, new faceapi.SsdMobilenetv1Options({
-                minConfidence: 0.3  // Set the minimum confidence level for face detection
-            })).withFaceLandmarks().withFaceDescriptors();
+        detectFace(displaySize);
+    } catch (error) {
+        console.error('Error initializing face recognition:', error);
+        messageDiv.textContent = `Error: ${error.message}`;
+    }
+}
+
+async function detectFace(displaySize) {
+    const context = canvas.getContext('2d');
+    const detectLoop = async () => {
+        try {
+            const detections = await faceapi
+                .detectAllFaces(video, new faceapi.SsdMobilenetv1Options({ minConfidence: 0.5 }))
+                .withFaceLandmarks()
+                .withFaceDescriptors();
 
             const resizedDetections = faceapi.resizeResults(detections, displaySize);
-            const context = canvas.getContext('2d');
+
             context.clearRect(0, 0, canvas.width, canvas.height);
             faceapi.draw.drawDetections(canvas, resizedDetections);
             faceapi.draw.drawFaceLandmarks(canvas, resizedDetections);
@@ -50,32 +75,36 @@ async function startFaceRecognition() {
             if (detections.length === 1) {
                 faceDescriptor = detections[0].descriptor;
                 messageDiv.textContent = 'Face detected. You can capture your face.';
-                captureButton.disabled = false; // Enable the button
+                captureButton.disabled = false;
             } else if (detections.length > 1) {
-                messageDiv.textContent = 'Multiple faces detected. Please ensure only your face is visible.';
-                captureButton.disabled = true; // Disable the button
+                messageDiv.textContent = 'Multiple faces detected. Please show only your face.';
+                captureButton.disabled = true;
             } else {
-                messageDiv.textContent = 'No face detected. Please ensure your face is visible.';
-                captureButton.disabled = true; // Disable the button
+                messageDiv.textContent = 'No face detected. Ensure your face is visible.';
+                captureButton.disabled = true;
             }
 
-            // Continue detecting until a single face is detected
-            if (!faceDescriptor) {
-                requestAnimationFrame(detectFace);
-            }
-        };
+            requestAnimationFrame(detectLoop);
+        } catch (error) {
+            console.error('Face detection error:', error);
+            messageDiv.textContent = 'An error occurred during detection.';
+        }
+    };
 
-        detectFace();
+    detectLoop();
+}
 
-    } catch (error) {
-        console.error('Error accessing camera:', error);
-        messageDiv.textContent = 'Error accessing camera. Please allow camera access and try again.';
+function stopCamera() {
+    if (stream) {
+        stream.getTracks().forEach(track => track.stop());
+        video.srcObject = null;
+        console.log('Camera stopped.');
     }
 }
 
 async function loadFaceApiModels() {
-    const modelUrl = '../models';  // Path to your models directory
-    await faceapi.nets.ssdMobilenetv1.loadFromUri(modelUrl); // Load the ssdMobilenetv1 model
-    await faceapi.nets.faceLandmark68Net.loadFromUri(modelUrl);  // Load the face landmarks model
-    await faceapi.nets.faceRecognitionNet.loadFromUri(modelUrl); // Load the face recognition model
+    const modelUrl = '../models'; // Path to your models directory
+    await faceapi.nets.ssdMobilenetv1.loadFromUri(modelUrl);
+    await faceapi.nets.faceLandmark68Net.loadFromUri(modelUrl);
+    await faceapi.nets.faceRecognitionNet.loadFromUri(modelUrl);
 }

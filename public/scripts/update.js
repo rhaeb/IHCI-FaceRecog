@@ -1,129 +1,203 @@
-document.addEventListener("DOMContentLoaded", async () => {
-    const popupContainer = document.getElementById("popup-container");
-    try {
-        const response = await fetch('update.html');
-        if (!response.ok) throw new Error('Failed to load popup');
-        const popupHTML = await response.text();
-        popupContainer.innerHTML = popupHTML;
+document.addEventListener("DOMContentLoaded", () => {
+    updateTime();
+    setInterval(updateTime, 1000);
 
-        initializePopup();
-    } catch (error) {
-        console.error('Error loading popup:', error);
-    }
+    const editPopup = document.getElementById("edit-popup");
+    const editButton = document.getElementById("edit-button");
+    const closePopup = document.getElementById("close-popup");
 
-    const userId = 1; // Replace with the actual user ID
-    fetchUserData(userId);
-});
+    // Fetch and populate user data
+    fetchUserProfile();
 
-function updateTime() {
-    const now = new Date();
-    document.getElementById("time").textContent = now.toLocaleTimeString();
-}
-setInterval(updateTime, 1000);
+    // Show Edit Popup
+    editButton.addEventListener("click", () => {
+        editPopup.style.display = "flex";
+        populateEditForm();
+    });
 
-function initializePopup() {
-    const editPopup = document.getElementById("editPopup");
-    const closePopup = document.getElementById("closePopup");
-    const saveButton = document.getElementById("save-button");
-
-    if (saveButton) {
-        saveButton.addEventListener("click", async () => {
-            console.log('Save button clicked');
-            const updatedData = {
-                u_id: +document.getElementById('edit-student-id').value, 
-                u_lname: document.getElementById('edit-last-name').value,
-                u_fname: document.getElementById('edit-first-name').value,
-                u_email: document.getElementById('edit-email').value,
-            };
-            console.log('Updated Data', updatedData);
-            try {
-                const response = await fetch(`/api/users/update/${updatedData.u_id}`, {
-                    method: 'PATCH',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify(updatedData),
-                });
-
-                console.log('Response from server:', response);
-                if (!response.ok) throw new Error('Failed to update user data');
-
-                const result = await response.json();
-                console.log('Result from server:', result);
-                alert('Profile updated successfully!');
-                document.getElementById('editPopup').style.display = 'none';
-
-                refreshProfileInfo(updatedData.u_id);
-            } catch (error) {
-                console.error('Error updating user data:', error);
-                alert('Error updating profile. Please try again.');
-            }
-        });
-    }
-
+    // Close Popup
     closePopup.addEventListener("click", () => {
         editPopup.style.display = "none";
     });
 
-    window.addEventListener("click", (e) => {
-        if (e.target === editPopup) {
-            editPopup.style.display = "none";
-        }
+    // Save Edited Profile
+    document.getElementById("edit-profile-form").addEventListener("submit", async (e) => {
+        e.preventDefault();
+        await saveUpdatedProfile();
     });
+});
 
-    editPopup.style.display = 'none';
-
-    const editButton = document.getElementById('edit-button');
-    if (editButton) {
-        editButton.addEventListener('click', (e) => {
-            const userId = e.target.getAttribute('data-user-id');
-            fetchUserData(userId).then(() => {
-                editPopup.style.display = 'flex';
-            });
-        });
-    }
+// Update time
+function updateTime() {
+    document.getElementById("time").textContent = new Date().toLocaleTimeString();
 }
 
-async function fetchUserData(userId) {
+// Fetch User Profile
+async function fetchUserProfile() {
+    const userId = getUserIdFromToken();
+    const token = getAuthToken();
+
+    if (!userId || !token) {
+        showMessage('User not authenticated.');
+        return;
+    }
+
     try {
-        const response = await fetch(`/api/users/${userId}`);
-        if (!response.ok) throw new Error('Failed to fetch user data');
+        const response = await fetch(`/api/users/details/${userId}`, {
+            method: 'GET',
+            headers: { 
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            }
+        });
 
-        const user = await response.json();
-        console.log('Fetched Data', user);
+        const data = await response.json();
+        console.log('data fetched', data)
+        if (response.ok) {
+            // Populate the form with existing user data
+            document.getElementById('first-name').value = data.firstName || '';
+            document.getElementById('last-name').value = data.lastName || '';
+            document.getElementById('gender').value = data.gender || '';
+            document.getElementById('bdate').value = data.birthDate ? data.birthDate.split('T')[0] : '';
+            document.getElementById('age').value = data.age || 0;
+            document.getElementById('phone').value = data.phone || ''; 
+            document.getElementById('cstatus').value = data.civilStatus || '';
+            document.getElementById('wstatus').value = data.workStatus || 'N/A';
+            document.getElementById('guardian').value = data.guardian || 'N/A';
+            document.getElementById('id-number').value = data.studentId || '';
+            document.getElementById('email').value = data.email || '';
+            document.getElementById('address').value = data.address || '';
 
-        //for update form
-        document.getElementById('edit-student-id').value = user.u_id || '';
-        document.getElementById('edit-last-name').value = user.u_lname || '';
-        document.getElementById('edit-first-name').value = user.u_fname || '';
-        document.getElementById('edit-email').value = user.u_email || '';
+            document.getElementById('user-name').textContent = `${data.firstName} ${data.lastName}`;
+            document.getElementById('profile-name').textContent = `${data.firstName} ${data.lastName}`;
+            document.getElementById('profile-email').textContent = data.email;
+            showMessage('User data loaded.', 'success');
+        } else {
+            showMessage(data.message || 'Error fetching user data.');
+        }
 
-        //profile info
-        document.getElementById('id-number').value = user.u_id || '';
-        document.getElementById('last-name').value = user.u_lname || '';
-        document.getElementById('first-name').value = user.u_fname || '';
-        document.getElementById('email').value = user.u_email || '';
-
-        //profile caed
-        document.getElementById('profile-name').textContent = `${user.u_fname} ${user.u_lname}`;
-        document.getElementById('profile-email').textContent = user.u_email;
-        
     } catch (error) {
         console.error('Error fetching user data:', error);
+        showMessage('Error fetching user data.');
     }
 }
 
-async function refreshProfileInfo(userId) {
-    try {
-        const response = await fetch(`/api/users/${userId}`);
-        if (!response.ok) throw new Error('Failed to fetch updated profile data');
+// Populate Edit Form
+function populateEditForm() {
+    document.getElementById("edit-first-name").value = document.getElementById("first-name").value;
+    document.getElementById("edit-last-name").value = document.getElementById("last-name").value;
+    document.getElementById("edit-phone").value = document.getElementById("phone").value;
+    document.getElementById("edit-address").value = document.getElementById("address").value;
 
-        const updatedUser = await response.json();
-        document.getElementById('first-name').value = updatedUser.u_fname || '';
-        document.getElementById('middle-name').value = updatedUser.u_mname || '';
-        document.getElementById('last-name').value = updatedUser.u_lname || '';
-        document.getElementById('email').value = updatedUser.u_email || '';
-    } catch (error) {
-        console.error('Error refreshing profile information:', error);
+    document.getElementById("edit-gender").value = document.getElementById("gender").value;
+    document.getElementById("edit-bdate").value = document.getElementById("bdate").value;
+    document.getElementById("edit-cstatus").value = document.getElementById("cstatus").value;
+    document.getElementById("edit-wstatus").value = document.getElementById("wstatus").value;
+    document.getElementById("edit-guardian").value = document.getElementById("guardian").value;
+    document.getElementById("edit-id-number").value = document.getElementById("id-number").value;
+    document.getElementById("edit-email").value = document.getElementById("email").value;
+}
+
+// Save Updated Profile
+async function saveUpdatedProfile() {
+    const userId = getUserIdFromToken();
+    const token = getAuthToken();
+
+    if (!userId || !token) {
+        alert('User not authenticated.');
+        return;
     }
+
+    const updatedData = {
+        u_fname: document.getElementById("edit-first-name").value,
+        u_lname: document.getElementById("edit-last-name").value,
+        u_gender: document.getElementById("edit-gender").value,
+        u_bdate: document.getElementById("edit-bdate").value,
+        u_phone: document.getElementById("edit-phone").value,
+        u_civstatus: document.getElementById("edit-cstatus").value,
+        u_wstatus: document.getElementById("edit-wstatus").value,
+        u_guardian: document.getElementById("edit-guardian").value,
+        u_stud_id: document.getElementById("edit-id-number").value,
+        u_email: document.getElementById("edit-email").value,
+        u_address: document.getElementById("edit-address").value
+    };
+
+    console.log("Sending updated data:", updatedData);
+
+    try {
+        const response = await fetch(`/api/users/${userId}`, {
+            method: 'PATCH',
+            headers: { 
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            },
+            body: JSON.stringify(updatedData)
+        });
+
+        const result = await response.json();
+
+        if (!response.ok) {
+            console.error("Error:", result);
+            alert(`Failed to save profile: ${result.message || 'Unknown error'}`);
+            return;
+        }
+
+        alert("Profile updated successfully!");
+        document.getElementById("edit-popup").style.display = "none";
+        fetchUserProfile(); // Refresh data
+    } catch (err) {
+        console.error("Error saving profile:", err);
+        alert("An unexpected error occurred. Please try again.");
+    }
+}
+
+
+
+// logout
+const profileImg = document.getElementById('profile-img');
+const dropdownMenu = document.getElementById('dropdown-menu');
+
+profileImg.addEventListener('click', () => {
+    dropdownMenu.style.display = dropdownMenu.style.display === 'block' ? 'none' : 'block';
+});
+
+window.addEventListener('click', (e) => {
+    if (!e.target.closest('.user-profile')) {
+        dropdownMenu.style.display = 'none';
+    }
+});
+
+const logoutLink = document.getElementById('logout');
+logoutLink.addEventListener('click', () => {
+    logout(); 
+});
+
+function logout() {
+    // Remove JWT token and user data from localStorage
+    localStorage.removeItem('token');
+    localStorage.removeItem('user');
+    
+    // Optionally, inform the server about the logout
+    // Uncomment the following lines if you implement a logout endpoint
+    /*
+    fetch('/api/users/logout', {
+        method: 'POST',
+        headers: {
+            'Authorization': `Bearer ${getAuthToken()}`
+        }
+    })
+    .then(response => {
+        if (response.ok) {
+            console.log('Logged out successfully on the server.');
+        } else {
+            console.warn('Server logout failed.');
+        }
+    })
+    .catch(error => {
+        console.error('Error during server logout:', error);
+    });
+    */
+
+    // Redirect to the login page or homepage
+    window.location.href = '../pages/login.html';
 }
