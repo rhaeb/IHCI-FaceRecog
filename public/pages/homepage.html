@@ -59,7 +59,7 @@
         <div class="main-section">
             <!-- Info Section -->
             <aside class="info-section">
-                <p><strong>Main Campus</strong></p>
+                <h2><strong>Main Campus</strong></h2>
                 <p id="time">8:00:50 AM</p>
                 <p>Profile</p>
                 <p><img id="icon" src="../images/Vector.png" alt="Icon"> My Profile</p>
@@ -81,71 +81,69 @@
             <div class="profile-info">
                 <h2>Profile Information</h2>
                 <form id="profileForm"> 
-                        <div class="column">
-                            <div class="input-box"> 
-                                <label for="first-name">First Name</label> 
-                                <input type="text" id="first-name" value="" readonly>
-                            </div>
-                            
-                            <div class="input-box"> 
-                                <label for="last-name">Last Name</label> 
-                                <input type="text" id="last-name" value="" readonly>
-                            </div>
-                            
-                            <div class="input-box"> 
-                                <label for="gender">Gender</label> 
-                                <input type="text" id="gender" value="" readonly>
-                            </div>
+                    <div class="column">
+                        <div class="input-box"> 
+                            <label for="first-name">First Name</label> 
+                            <input type="text" id="first-name" value="" readonly>
+                        </div>
+                        <div class="input-box"> 
+                            <label for="last-name">Last Name</label> 
+                            <input type="text" id="last-name" value="" readonly>
+                        </div>
                     </div>
                     <div class="column">
-                            <div class="input-box"> 
-                                <label for="bdate">Birthdate</label> 
-                                <input type="text" id="bdate" value="" readonly>
-                            </div>
-                            
-                            <div class="input-box"> 
-                                <label for="age">Age</label> 
-                                <input type="number" id="age" value="" readonly>
-                            </div>
-                            
-                            <div class="input-box"> 
-                                <label for="phone">Contact Number</label> 
-                                <input type="text" id="phone" value="" readonly>
-                            </div>
-                    </div> 
+                        <div class="input-box"> 
+                            <label for="id-number">Student ID</label> 
+                            <input type="number" id="id-number" value="" readonly>
+                        </div>
+                        <div class="input-box"> 
+                            <label for="email">Email</label> 
+                            <input type="email" id="email" value="" readonly>
+                        </div>
+                    </div>
+                    <div class="column">
+                        <div class="input-box"> 
+                            <label for="gender">Gender</label> 
+                            <input type="text" id="gender" value="" readonly>
+                        </div>
+                        <div class="input-box"> 
+                            <label for="bdate">Birthdate</label> 
+                            <input type="text" id="bdate" value="" readonly>
+                        </div>
+                    </div>
+                    <div class="column">
+                        <div class="input-box"> 
+                            <label for="age">Age</label> 
+                            <input type="number" id="age" value="" readonly>
+                        </div>
+                        <div class="input-box"> 
+                            <label for="phone">Contact Number</label> 
+                            <input type="text" id="phone" value="" readonly>
+                        </div>
+                    </div>
                     <div class="column">
                         <div class="input-box"> 
                             <label for="cstatus">Civil Status</label> 
                             <input type="text" id="cstatus" value="" readonly>
                         </div>
-                        
                         <div class="input-box"> 
                             <label for="wstatus">Work Status</label> 
                             <input type="text" id="wstatus" value="" readonly>
                         </div>
-                        
+                    </div>
+                    <div class="column">
                         <div class="input-box"> 
                             <label for="guardian">Guardian/Parent</label> 
                             <input type="text" id="guardian" value="" readonly>
                         </div>
-                    </div> 
-                    <div class="column">
-                         <div class="input-box"> 
-                            <label for="id-number">Student ID Number</label> 
-                            <input type="number" id="id-number" value="" readonly> 
-                        </div> 
                         <div class="input-box"> 
-                            <label for="email">Email</label> 
-                            <input type="email" id="email" value="" readonly> 
-                        </div> 
-                    </div> 
-
-                <label for="address">Address</label> 
-                <input type="text" id="address" value="" readonly> 
-                
-                <button type="button" id="edit-button">Edit</button>  
+                            <label for="address">Address</label> 
+                            <input type="text" id="address" value="" readonly>
+                        </div>
+                    </div>
+                    <button type="button" id="edit-button">Edit Profile</button>  
                 </form>
-            </div>
+            </div> 
         </div>
     </div>
 
@@ -170,6 +168,16 @@
                     </div>
                 </div>
                 <div class="input-row">
+                    <div class="input-box"> 
+                        <label for="edit-id-number">Student ID</label> 
+                        <input type="number" id="edit-id-number" required> 
+                    </div>
+                    <div class="input-box"> 
+                        <label for="edit-email">Email</label> 
+                        <input type="email" id="edit-email" required> 
+                    </div>
+                </div>
+                <div class="input-row">
                     <div class="input-box">
                         <label for="edit-gender">Gender</label> 
                         <input type="text" id="edit-gender" required>
@@ -182,15 +190,13 @@
                     </div>
                 </div>
                 <div class="input-row">
-                    <div class="input-box"> 
-                        <label for="edit-email">Email</label> 
-                        <input type="email" id="edit-email" required> 
-                    </div>
                     <div class="input-box">
-                        <div class="input-box"> 
-                            <label for="edit-phone">Contact Number</label> 
-                            <input type="text" id="edit-phone" required>
-                        </div>
+                        <label for="edit-phone">Contact Number</label> 
+                        <input type="text" id="edit-phone" required>
+                    </div>
+                    <div class="input-box"> 
+                        <label for="edit-guardian">Guardian/Parent</label> 
+                        <input type="text" id="edit-guardian" required>
                     </div>
                 </div>
                 <div class="input-row">
@@ -201,16 +207,6 @@
                     <div class="input-box"> 
                         <label for="edit-wstatus">Work Status</label> 
                         <input type="text" id="edit-wstatus" required>
-                    </div>
-                </div>
-                <div class="input-row">
-                    <div class="input-box"> 
-                        <label for="edit-guardian">Guardian/Parent</label> 
-                        <input type="text" id="edit-guardian" required>
-                    </div>
-                    <div class="input-box"> 
-                        <label for="edit-id-number">Student ID Number</label> 
-                        <input type="number" id="edit-id-number" required> 
                     </div>
                 </div>
                 <div class="input-row">
