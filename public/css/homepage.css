@@ -364,6 +364,14 @@ body {
     outline: none;
 }
 
+.input-box select {
+    padding: 8px 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+    outline: none;
+}
+
 .input-box input:focus {
     border-color: #007BFF;
 }

@@ -369,7 +369,7 @@ const getUserDetails = async (req, res) => {
         console.log('u_bdate:', user.u_bdate);
 
         // Calculate age
-        var bdate = moment(user.u_bdate).utc().format('YYYY-MM-DD');
+        var bdate = moment(user.u_bdate).format('YYYY-MM-DD');
         const age = calculateAge(bdate);
 
         console.log('User details fetched for user:', user.u_id);
