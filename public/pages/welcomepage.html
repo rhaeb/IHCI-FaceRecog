@@ -48,10 +48,21 @@
                 // Generate initials
                 const initials = generateInitials(user.firstName, user.lastName);
 
-                // Update the profile picture with initials
-                const profilePicElement = document.getElementById('profile-pic');
-                profilePicElement.innerHTML = initials; // Replace the <img> with initials
-                profilePicElement.classList.add('initials'); // Add class for styling
+                // Update the profile picture with initials or image
+                const headerProfilePicElement = document.getElementById('header-profile-pic');
+                const mainProfilePicElement = document.getElementById('main-profile-pic');
+
+                // Check if profile image exists
+                if (user.profileImage) {
+                    // If profile image exists, update src
+                    headerProfilePicElement.innerHTML = `<img src="${user.profileImage}" alt="Profile Picture">`;
+                    mainProfilePicElement.innerHTML = `<img src="${user.profileImage}" alt="Profile Picture">`;
+                } else {
+                    // If no profile image, generate random background color and update with initials
+                    const backgroundColor = getRandomColor();
+                    headerProfilePicElement.innerHTML = `<div class="initials" style="background-color: ${backgroundColor};">${initials}</div>`;
+                    mainProfilePicElement.innerHTML = `<div class="initials" style="background-color: ${backgroundColor};">${initials}</div>`;
+                }
             }
 
             // Function to generate initials from first and last names
@@ -59,6 +70,16 @@
                 const firstInitial = firstName.charAt(0).toUpperCase();
                 const lastInitial = lastName.charAt(0).toUpperCase();
                 return `${firstInitial}${lastInitial}`;
+            }
+
+            // Function to generate a random background color
+            function getRandomColor() {
+                const letters = '0123456789ABCDEF';
+                let color = '#';
+                for (let i = 0; i < 6; i++) {
+                    color += letters[Math.floor(Math.random() * 16)];
+                }
+                return color;
             }
 
             // Main execution
@@ -101,21 +122,56 @@
         })();
     </script>
     <style>
-        /* Style for initials-based profile picture */
-        .profile-pic.initials {
-            width: 100px;
-            height: 100px;
-            background-color: #007bff; /* Bootstrap primary color */
-            color: #fff;
-            font-size: 36px;
-            font-weight: bold;
+        /* Profile picture styles */
+        .profile-pic {
+            position: absolute;
+            bottom: -70px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 150px;
+            height: 150px;
+            border: 4px solid #fff;
             border-radius: 50%;
+            overflow: hidden;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
             display: flex;
             align-items: center;
             justify-content: center;
+            font-size: 36px;
+            font-weight: bold;
             text-transform: uppercase;
-            margin: 0 auto;
         }
+        
+        .profile-pic img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover; /* Ensures the image fills the circle properly */
+        }
+        
+        .profile-pic.initials {
+            background-color: #007bff; /* Default random background color */
+            color: white;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+        
+        /* Header profile picture */
+        #header-profile-pic {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            transform: translateX(0);
+        }
+        
+        /* Main profile picture */
+        #main-profile-pic {
+            margin-top: 20px;
+        }
+             
     </style>
 </head>
 <body>
@@ -126,23 +182,20 @@
                 <span>EduSync</span>
             </div>
             <div class="user-profile">
-                <!-- Placeholder for profile picture -->
-                <div id="profile-pic">
-                    <img src="../images/profile.jpg" alt="User Profile">
-                </div>
+                <!-- Profile picture for header -->
+                <div id="header-profile-pic" class="profile-pic"></div>
             </div>
         </header>
         <main class="card">
             <div class="card-header">
                 <img src="../images/art.jpg" alt="Header Background">
                 <h1>WELCOME TO <span class="highlight">EduSync</span></h1>
-                <div class="profile-pic" id="profile-pic">
-                    <!-- Initially displays static image; will be replaced by initials -->
-                    <img src="../images/profile.jpg" alt="User Profile">
+                <div class="user-profile">
+                    <!-- Profile picture for main content -->
+                    <div id="main-profile-pic" class="profile-pic"></div>
                 </div>
             </div>
             <div class="card-content">
-                <!-- Placeholder for dynamic user name -->
                 <h2 id="user-name">User Name</h2>
                 <p>You’re logged in! Please click continue to explore your profile and attendance records</p>
                 <button onclick="window.location.href='homepage.html'">Continue</button>
