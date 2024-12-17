@@ -13,7 +13,7 @@
                 const user = localStorage.getItem('user');
                 return user ? JSON.parse(user) : null;
             }
-
+    
             // Function to fetch user details from the server
             function fetchUserDetails(userId, token) {
                 fetch(`/api/users/${userId}`, {
@@ -38,40 +38,43 @@
                     window.location.href = 'login.html';
                 });
             }
-
+    
             // Function to update the welcome page with user details
             function updateWelcomePage(user) {
                 // Update the user's full name
                 const userNameElement = document.getElementById('user-name');
                 userNameElement.textContent = `${user.firstName} ${user.lastName}`;
-
+    
                 // Generate initials
                 const initials = generateInitials(user.firstName, user.lastName);
-
+    
                 // Update the profile picture with initials or image
                 const headerProfilePicElement = document.getElementById('header-profile-pic');
                 const mainProfilePicElement = document.getElementById('main-profile-pic');
-
+    
                 // Check if profile image exists
                 if (user.profileImage) {
                     // If profile image exists, update src
                     headerProfilePicElement.innerHTML = `<img src="${user.profileImage}" alt="Profile Picture">`;
                     mainProfilePicElement.innerHTML = `<img src="${user.profileImage}" alt="Profile Picture">`;
                 } else {
-                    // If no profile image, generate random background color and update with initials
-                    const backgroundColor = getRandomColor();
+                    // If no profile image, apply stored random background color
+                    const backgroundColor = user.backgroundColor || getRandomColor();
+                    // Apply background color to profile pic elements
+                    headerProfilePicElement.style.backgroundColor = backgroundColor;
+                    mainProfilePicElement.style.backgroundColor = backgroundColor;
                     headerProfilePicElement.innerHTML = `<div class="initials" style="background-color: ${backgroundColor};">${initials}</div>`;
                     mainProfilePicElement.innerHTML = `<div class="initials" style="background-color: ${backgroundColor};">${initials}</div>`;
                 }
             }
-
+    
             // Function to generate initials from first and last names
             function generateInitials(firstName, lastName) {
                 const firstInitial = firstName.charAt(0).toUpperCase();
                 const lastInitial = lastName.charAt(0).toUpperCase();
                 return `${firstInitial}${lastInitial}`;
             }
-
+    
             // Function to generate a random background color
             function getRandomColor() {
                 const letters = '0123456789ABCDEF';
@@ -81,7 +84,7 @@
                 }
                 return color;
             }
-
+    
             // Main execution
             const token = localStorage.getItem('token');
             if (!token) {
@@ -121,15 +124,10 @@
             }
         })();
     </script>
+    
     <style>
         /* Profile picture styles */
         .profile-pic {
-            position: absolute;
-            bottom: -70px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 150px;
-            height: 150px;
             border: 4px solid #fff;
             border-radius: 50%;
             overflow: hidden;
@@ -149,7 +147,6 @@
         }
         
         .profile-pic.initials {
-            background-color: #007bff; /* Default random background color */
             color: white;
             width: 100%;
             height: 100%;
@@ -161,14 +158,23 @@
         
         /* Header profile picture */
         #header-profile-pic {
-            position: absolute;
-            bottom: 20px;
-            left: 20px;
-            transform: translateX(0);
+            border: 2px solid #fff;
+            font-size: 12px;
+            position: relative;
+            width: 30px;
+            height: 30px;
+            background-color: #007bff; /* Default random background color */
         }
-        
         /* Main profile picture */
         #main-profile-pic {
+            position: absolute;
+            bottom: -70px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: white;
+            width: 150px;
+            height: 150px;
+            background-color: #007bff; /* Default random background color */
             margin-top: 20px;
         }
              
@@ -197,7 +203,7 @@
             </div>
             <div class="card-content">
                 <h2 id="user-name">User Name</h2>
-                <p>You’re logged in! Please click continue to explore your profile and attendance records</p>
+                <p>You’re logged in! Please click continue to explore your profile</p>
                 <button onclick="window.location.href='homepage.html'">Continue</button>
             </div>
         </main>

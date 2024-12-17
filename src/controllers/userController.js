@@ -257,6 +257,9 @@ const loginUser = async (req, res) => {
             // Calculate the user's age
             const age = calculateAge(matchedUser.u_bdate);
 
+            // Generate random background color
+            const backgroundColor = generateRandomColor();
+
             return res.json({
                 message: 'Login successful',
                 token,
@@ -265,7 +268,8 @@ const loginUser = async (req, res) => {
                     email: matchedUser.u_email,
                     firstName: matchedUser.u_fname,
                     lastName: matchedUser.u_lname,
-                    age: age
+                    age: age,
+                    backgroundColor  // Add the random color here
                 }
             });
         } else {
@@ -277,6 +281,16 @@ const loginUser = async (req, res) => {
         return res.status(500).json({ message: 'Error logging in' });
     }
 };
+
+// Helper function to generate random color
+function generateRandomColor() {
+    const letters = '0123456789ABCDEF';
+    let color = '#';
+    for (let i = 0; i < 6; i++) {
+        color += letters[Math.floor(Math.random() * 16)];
+    }
+    return color;
+}
 
 /**
  * Logs in a user using email and password.
