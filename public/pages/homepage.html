@@ -8,12 +8,110 @@
     <title>EduSync</title>
     <script>
         (function() {
-            const token = localStorage.getItem('token');
-            if (!token) {
-                // Redirect to login page if no token is found
-                window.location.href = 'login.html'; // Update the path as needed
-            } else {
-                // Optionally, verify the token's validity with the server
+            // Retrieve user data from localStorage
+            function getStoredUser() {
+                const user = localStorage.getItem('user');
+                return user ? JSON.parse(user) : null;
+            }
+        
+            // Fetch user details from the server
+            function fetchUserDetails(userId, token) {
+                fetch(`/api/users/${userId}`, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    }
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Failed to fetch user details');
+                    }
+                    return response.json();
+                })
+                .then(user => updateProfilePage(user))
+                .catch(() => window.location.href = '../pages/login.html');
+            }
+        
+            // Update the profile page
+            function updateProfilePage(user) {
+                const userNameElement = document.getElementById('user-name');
+                const profileNameElement = document.getElementById('profile-name');
+                const profileEmailElement = document.getElementById('profile-email');
+                const headerProfileImg = document.getElementById('header-profile-img');
+                const profilePicCard = document.getElementById('profile-pic-card');
+        
+                const fullName = `${user.firstName} ${user.lastName}`;
+                const initials = generateInitials(user.firstName, user.lastName);
+                const profileImage = user.profileImage;
+        
+                ///userNameElement.textContent = fullName;
+                ///profileNameElement.textContent = fullName;
+                ///profileEmailElement.textContent = user.email;
+
+                const headerProfilePicImg = document.getElementById('header-profile-img');
+                const ProfilePicCard = document.getElementById('profile-pic-card');
+    
+        
+                if (profileImage) {
+                    headerProfileImg.innerHTML = `<img src="${profileImage}" alt="Profile Picture">`;
+                    profilePicCard.innerHTML = `<img src="${profileImage}" alt="Profile Picture">`;
+                } else {
+                    const storedUser = getStoredUser();
+                    const backgroundColor = storedUser.backgroundColor || getRandomColor();
+                    headerProfileImg.style.backgroundColor = backgroundColor;
+                    profilePicCard.style.backgroundColor = backgroundColor;
+                    headerProfileImg.innerHTML = initials;
+                    profilePicCard.innerHTML = initials;
+                }
+            }
+        
+            // Generate user initials
+            function generateInitials(firstName, lastName) {
+                return `${firstName.charAt(0).toUpperCase()}${lastName.charAt(0).toUpperCase()}`;
+            }
+        
+            // Generate a random color
+            function getRandomColor() {
+                const letters = '0123456789ABCDEF';
+                let color = '#';
+                for (let i = 0; i < 6; i++) {
+                    color += letters[Math.floor(Math.random() * 16)];
+                }
+                return color;
+            }
+        
+            // Handle logout
+            function logout() {
+                localStorage.removeItem('token');
+                localStorage.removeItem('user');
+                window.location.href = '../pages/login.html';
+            }
+        
+            document.addEventListener('DOMContentLoaded', () => {
+                const dropdownMenu = document.getElementById('dropdown-menu');
+                const userProfilePic = document.getElementById('user-profile-pic');
+                const logoutLink = document.getElementById('logout');
+        
+                userProfilePic.addEventListener('click', e => {
+                    e.stopPropagation();
+                    dropdownMenu.style.display = dropdownMenu.style.display === 'block' ? 'none' : 'block';
+                });
+        
+                window.addEventListener('click', e => {
+                    if (!e.target.closest('.user-profile')) {
+                        dropdownMenu.style.display = 'none';
+                    }
+                });
+        
+                logoutLink.addEventListener('click', logout);
+        
+                const token = localStorage.getItem('token');
+                if (!token) {
+                    window.location.href = '../pages/login.html';
+                    return;
+                }
+        
                 fetch('/api/users/verify-token', {
                     method: 'POST',
                     headers: {
@@ -23,18 +121,62 @@
                 })
                 .then(response => {
                     if (!response.ok) {
-                        throw new Error('Token is invalid or expired');
+                        throw new Error('Invalid token');
                     }
                     return response.json();
                 })
-                .catch(error => {
-                    console.error('Token verification failed:', error);
-                    // Redirect to login page on error
-                    window.location.href = 'login.html';
-                });
-            }
+                .then(data => {
+                    const storedUser = getStoredUser();
+                    if (storedUser?.id) {
+                        fetchUserDetails(storedUser.id, token);
+                    } else {
+                        window.location.href = '../pages/login.html';
+                    }
+                })
+                .catch(() => window.location.href = '../pages/login.html');
+            });
         })();
+        
     </script>
+
+    <style>
+        #header-profile-img {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white; /* Adjust as needed */
+            font-size: 12px; /* Adjust for size */
+            font-weight: bold;
+            text-transform: uppercase;
+            width: 30px; /* Adjust for your layout */
+            height: 30px; /* Adjust for your layout */
+            border-radius: 50%;
+            overflow: hidden;
+        }
+
+        .profile-card #profile-pic-card {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white; /* Adjust as needed */
+            font-size: 35px; /* Adjust for size */
+            font-weight: bold;
+            text-transform: uppercase;
+            width: 100px; /* Adjust for your layout */
+            height: 100px; /* Adjust for your layout */
+            border-radius: 50%;
+            overflow: hidden;
+            margin-top: -50px; 
+            margin-left: 130px;
+            border: 3px solid white;
+            object-fit: cover; 
+            position: relative; 
+            z-index: 2; 
+            box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+            
+        }
+    </style>
+
 </head>
 <body>
     <div class="container">
@@ -44,8 +186,9 @@
                 <img src="../images/slogo.png" alt="EduSync Logo">
                 <span>EduSync</span>
             </div>
-            <div class="user-profile" id="user-profile">
-                <img src="../images/caps2.png" alt="User Profile" id="profile-img">
+            <!--Header-->
+            <div class="user-profile" id="user-profile-pic">
+                <div alt="User Profile" id="header-profile-img"></div>
                 <!-- Dropdown menu -->
                 <div id="dropdown-menu" class="dropdown-content">
                     <!-- User's name will appear here -->
@@ -69,9 +212,9 @@
             <section class="profile-card">
                 <div class="cover-photo"></div>
                 <div class="background-pic">
-                    <img src="../images/background.svg" alt="Background Picture">
+                    <img src="../images/art.jpg" alt="Background Picture">
                 </div>
-                <img src="../images/caps2.png" alt="Profile Picture" class="profile-picture">
+                <div alt="Profile Picture" class="profile-picture" id="profile-pic-card"></div>
                 <h2 id="profile-name"></h2>
                 <p id="profile-email"></p>
                 <p>Student</p>

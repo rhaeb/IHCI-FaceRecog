@@ -32,11 +32,15 @@ body {
     margin-right: 10px;
 }
 
-.navbar .user-profile img {
-    height: 40px;
-    width: 40px;
+#header-profile-img {
+    border: 2px solid #fff;
+    position: relative;
+    width: 30px;
+    height: 30px;
+    background-color: #ffffff; /* Default random background color */
+    margin-right: 20px;
+    padding: 2px; /* Adjust padding as needed */
     border-radius: 50%;
-    border: 2px solid white;
 }
 
 /* Main Section Layout */
@@ -125,19 +129,8 @@ body {
     z-index: 1; 
 }
 
-.profile-card .profile-picture {
-    height: 110px;
-    width: 110px;
-    border-radius: 50%;
-    border: 3px solid white;
-    margin-top: -50px; 
-    object-fit: cover;
-    position: relative; 
-    z-index: 2; 
-}
-
 .profile-card h2 {
-    /* margin-bottom: 1rem; */
+    margin-top: 1rem;
     font-size: 1.5rem;
     color: #070808;
 }
