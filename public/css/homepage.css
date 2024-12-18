@@ -32,17 +32,6 @@ body {
     margin-right: 10px;
 }
 
-#header-profile-img {
-    border: 2px solid #fff;
-    position: relative;
-    width: 30px;
-    height: 30px;
-    background-color: #ffffff; /* Default random background color */
-    margin-right: 20px;
-    padding: 2px; /* Adjust padding as needed */
-    border-radius: 50%;
-}
-
 /* Main Section Layout */
 .main-section {
     display: flex;
