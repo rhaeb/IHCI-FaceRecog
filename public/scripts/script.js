@@ -506,20 +506,61 @@ async function handleSignup2(event) {
     const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/; // Basic email regex
     const phoneRegex = /^(09|\+639)\d{9}$/; // Valid Philippine phone number
 
-    // Basic validation  || !password 
-    if (!email || !firstName || !lastName || !studentId || !address || !phone || !birthDate || !gender || !civilStatus) {
+    // Function to calculate age
+    function calculateAge(birthDate) {
+        const today = new Date();
+        const birthDateObj = new Date(birthDate);
+        let age = today.getFullYear() - birthDateObj.getFullYear();
+        const monthDifference = today.getMonth() - birthDateObj.getMonth();
+        const dayDifference = today.getDate() - birthDateObj.getDate();
+
+        // Adjust age if birthday hasn't occurred yet this year
+        if (monthDifference < 0 || (monthDifference === 0 && dayDifference < 0)) {
+            age--;
+        }
+
+        return age;
+    }
+
+    // Basic validation: Check if all fields are filled
+    if (
+        !email ||
+        !firstName ||
+        !lastName ||
+        !studentId ||
+        !address ||
+        !phone ||
+        !birthDate ||
+        !gender ||
+        !civilStatus
+    ) {
         showMessage('All fields are required.');
         return;
     }
 
+    // Validate email format
     if (!emailRegex.test(email)) {
         showMessage('Please enter a valid email address.');
         return;
     }
 
+    // Validate phone number format
     if (!phoneRegex.test(phone)) {
         showMessage('Please enter a valid Philippine contact number (e.g., 09123456789 or +639123456789).');
         return;
+    }
+
+    // Calculate and validate age
+    const age = calculateAge(birthDate);
+    if (age < 16) {
+        showMessage('You must be at least 16 years old to sign up.');
+        return;
+    }
+
+    // Optionally, you can provide feedback if the user is close to the age limit
+    // For example, if the user is exactly 16 today
+    if (age === 16) {
+        showMessage('Happy 16th Birthday! You are now eligible to sign up.');
     }
 
     // Store the form data temporarily
