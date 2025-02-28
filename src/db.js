@@ -39,8 +39,8 @@ const client = new Client({
   port: process.env.DB_PORT,
   database: process.env.DB_NAME,
   user: process.env.DB_USER,
-  password: process.env.DB_PASS, // Use env variable instead of hardcoded password
-  ssl: { rejectUnauthorized: false }, // Ensure secure connection for cloud databases
+  password: "123456",//process.env.DB_PASS, // Use env variable instead of hardcoded password
+  ssl: false, //{ rejectUnauthorized: false }, // Ensure secure connection for cloud databases
 });
 
 client.connect()
